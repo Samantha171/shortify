@@ -12,11 +12,13 @@ import DashboardLayout from './layouts/DashboardLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Expired from './components/Expired';
 import PublicStats from './pages/PublicStats';
+import SplashCursor from './components/SplashCursor';
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <SplashCursor BACK_COLOR={{ r: 0, g: 0, b: 0 }} />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
