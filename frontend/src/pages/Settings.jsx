@@ -117,10 +117,10 @@ const Settings = () => {
                 </div>
             </ScrollReveal>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
                 {/* Profile Information */}
                 <ScrollReveal className="space-y-6">
-                    <div className={cardClass}>
+                    <div className={`${cardClass} h-full min-h-[520px]`}>
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-10 h-10 bg-[#4988C4]/20 rounded-xl flex items-center justify-center">
                                 <User className="text-[#6aa8ff]" size={20} />
