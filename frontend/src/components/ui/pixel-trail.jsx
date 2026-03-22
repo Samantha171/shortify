@@ -1,4 +1,3 @@
-"use client"
 import { useEffect, useRef, useState, useCallback } from "react"
 
 const COLORS = ["#4988C4", "#6aa8ff", "#2563eb", "#3b82f6", "#93c5fd"]
@@ -96,7 +95,7 @@ export function PixelCursorTrail() {
           />
         )
       })}
-      
+
       {/* Subtle Hint */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 hover:opacity-0 transition-opacity duration-1000">
         <span className="text-[10px] font-mono uppercase tracking-[0.5em] text-[#4988C4]">
