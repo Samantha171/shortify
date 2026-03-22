@@ -1,0 +1,24 @@
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE urls (
+    url_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+    original_url TEXT NOT NULL,
+    short_code VARCHAR(20) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expiry_date TIMESTAMP,
+    click_count INTEGER DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE visits (
+    visit_id SERIAL PRIMARY KEY,
+    url_id INTEGER REFERENCES urls(url_id) ON DELETE CASCADE,
+    visited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
