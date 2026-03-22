@@ -95,19 +95,26 @@ const redirect = async (req, res) => {
                 const visitId = rows[0].visit_id;
 
                 // 2. Try Geolocation
-                const ip = req.headers['x-forwarded-for']?.split(',')[0] ||
+                let ip = req.headers['x-forwarded-for']?.split(',')[0] ||
                     req.headers['x-real-ip'] ||
                     req.socket.remoteAddress;
 
-                if (ip && ip !== '::1' && ip !== '127.0.0.1' && !ip.startsWith('192.168.')) {
-                    try {
-                        const geoRes = await fetch(`https://ipwho.is/${ip}`);
-                        const geoData = await geoRes.json();
+                // Handle IPv6 mapped IPv4 or local loopback
+                if (ip && ip.includes('::ffff:')) ip = ip.split(':').pop();
+                if (ip === '::1') ip = '127.0.0.1';
 
-                        if (geoData.success === true) {
+                // Skip geolocation for known local/private ranges
+                const isLocal = !ip || ip === '127.0.0.1' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.');
+
+                if (!isLocal) {
+                    try {
+                        const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,status`);
+                        const geoData = await geoRes.json();
+                        
+                        if (geoData.status === 'success') {
                             const country = geoData.country || 'Unknown';
                             const city = geoData.city || 'Unknown';
-
+                            
                             // 3. Update with real data
                             await db.query(
                                 'UPDATE visits SET country = $1, city = $2 WHERE visit_id = $3',
