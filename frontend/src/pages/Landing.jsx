@@ -119,16 +119,20 @@ const Landing = () => {
             <main className="relative z-10 max-w-4xl mx-auto px-6 pt-8 pb-10 text-center">
 
 
-                <h1 className="text-6xl md:text-8xl font-black mb-8 leading-tight tracking-tight px-4">
+                <div className="mb-8 inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#4988C4]/10 border border-[#4988C4]/30 text-[#6aa8ff] text-sm font-medium">
+                    <span className="w-2 h-2 rounded-full bg-[#6aa8ff] animate-pulse"></span>
+                    Free URL shortener with analytics
+                </div>
+
+                <h1 className="text-6xl md:text-[90px] lg:text-[110px] font-black mb-6 leading-[1.05] tracking-[-0.03em] px-4 font-sans">
                     Shorten Your Links,<br />
-                    <span className="bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] bg-clip-text text-transparent pb-4">
                         Expand Your Reach
                     </span>
                 </h1>
 
-                <p className="text-white/50 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                    Transform long messy URLs into powerful trackable links.
-                    Analytics, QR codes, and bulk upload — all in one place.
+                <p className="text-white/60 text-xl max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
+                    Transform long messy URLs into powerful trackable links.<br/> Analytics, QR codes, and bulk upload — all in one place.
                 </p>
 
                 <div className="mb-12">
