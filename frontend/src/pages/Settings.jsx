@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { 
-    User, Mail, Calendar, History, Lock, Eye, EyeOff, 
-    Trash2, AlertTriangle, Loader2, ShieldCheck, CheckCircle2 
+import {
+    User, Mail, Calendar, History, Lock, Eye, EyeOff,
+    Trash2, AlertTriangle, Loader2, ShieldCheck, CheckCircle2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import API from '../services/api';
@@ -43,11 +43,11 @@ const Settings = () => {
 
     const handlePasswordUpdate = async (e) => {
         e.preventDefault();
-        
+
         if (passwordData.new_password !== passwordData.confirm_password) {
             return toast.error('New passwords do not match');
         }
-        
+
         if (passwordData.new_password.length < 6) {
             return toast.error('Password must be at least 6 characters');
         }
@@ -82,17 +82,17 @@ const Settings = () => {
     const formatDate = (dateStr) => {
         if (!dateStr) return 'N/A';
         const date = new Date(dateStr);
-        return date.toLocaleDateString(undefined, { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+        return date.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
         }) + ' at ' + date.toLocaleTimeString(undefined, {
             hour: '2-digit',
             minute: '2-digit'
         });
     };
 
-    const cardClass = "bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-xl";
+    const cardClass = "group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:border-blue-400/30 hover:-translate-y-1";
     const labelClass = "text-xs font-semibold text-white/40 uppercase tracking-widest mb-2 block";
     const inputContainerClass = "relative group";
     const inputClass = `w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 
@@ -194,14 +194,14 @@ const Settings = () => {
                                     <input
                                         type={showPasswords.current ? "text" : "password"}
                                         value={passwordData.current_password}
-                                        onChange={(e) => setPasswordData({...passwordData, current_password: e.target.value})}
+                                        onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
                                         className={inputClass}
                                         placeholder="••••••••"
                                         required
                                     />
                                     <button
                                         type="button"
-                                        onClick={() => setShowPasswords({...showPasswords, current: !showPasswords.current})}
+                                        onClick={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })}
                                         className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20 hover:text-white transition-colors"
                                     >
                                         {showPasswords.current ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -215,14 +215,14 @@ const Settings = () => {
                                     <input
                                         type={showPasswords.new ? "text" : "password"}
                                         value={passwordData.new_password}
-                                        onChange={(e) => setPasswordData({...passwordData, new_password: e.target.value})}
+                                        onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
                                         className={inputClass}
                                         placeholder="Min. 6 characters"
                                         required
                                     />
                                     <button
                                         type="button"
-                                        onClick={() => setShowPasswords({...showPasswords, new: !showPasswords.new})}
+                                        onClick={() => setShowPasswords({ ...showPasswords, new: !showPasswords.new })}
                                         className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20 hover:text-white transition-colors"
                                     >
                                         {showPasswords.new ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -236,14 +236,14 @@ const Settings = () => {
                                     <input
                                         type={showPasswords.confirm ? "text" : "password"}
                                         value={passwordData.confirm_password}
-                                        onChange={(e) => setPasswordData({...passwordData, confirm_password: e.target.value})}
+                                        onChange={(e) => setPasswordData({ ...passwordData, confirm_password: e.target.value })}
                                         className={inputClass}
                                         placeholder="••••••••"
                                         required
                                     />
                                     <button
                                         type="button"
-                                        onClick={() => setShowPasswords({...showPasswords, confirm: !showPasswords.confirm})}
+                                        onClick={() => setShowPasswords({ ...showPasswords, confirm: !showPasswords.confirm })}
                                         className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20 hover:text-white transition-colors"
                                     >
                                         {showPasswords.confirm ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -274,7 +274,7 @@ const Settings = () => {
                     <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform duration-500">
                         <AlertTriangle size={120} className="text-red-500" />
                     </div>
-                    
+
                     <div className="relative z-10">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
@@ -313,7 +313,7 @@ const Settings = () => {
                         <p className="text-white/50 mb-8">
                             Deleting your account will permanently erase your data and links. This process cannot be undone.
                         </p>
-                        
+
                         <div className="flex flex-col gap-3">
                             <button
                                 onClick={handleDeleteAccount}
