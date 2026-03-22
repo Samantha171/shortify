@@ -26,4 +26,26 @@ const findByEmail = async (email) => {
     return result.rows[0];
 };
 
-module.exports = { signup, login, findByEmail };
+const updateLastLogin = async (userId) => {
+    await db.query('UPDATE users SET last_login = NOW() WHERE user_id = $1', [userId]);
+};
+
+const getUserProfile = async (userId) => {
+    const result = await db.query(
+        'SELECT user_id, name, email, created_at, last_login FROM users WHERE user_id = $1',
+        [userId]
+    );
+    return result.rows[0];
+};
+
+const changePassword = async (userId, newPassword) => {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await db.query('UPDATE users SET password = $1 WHERE user_id = $1', [hashedPassword, userId]);
+};
+
+const deleteAccount = async (userId) => {
+    // Cascade delete handles URLs and visits if schema is set up with ON DELETE CASCADE
+    await db.query('DELETE FROM users WHERE user_id = $1', [userId]);
+};
+
+module.exports = { signup, login, findByEmail, updateLastLogin, getUserProfile, changePassword, deleteAccount };
