@@ -62,7 +62,7 @@ const getStats = async (req, res) => {
 const redirect = async (req, res) => {
     const { short_code } = req.params;
     const frontendUrl = process.env.FRONTEND_URL || 'https://shortify-app.vercel.app';
-    
+
     try {
         const url = await urlService.findByShortCode(short_code);
 
@@ -80,27 +80,31 @@ const redirect = async (req, res) => {
         }
 
         await urlService.incrementClickCount(url.url_id);
-        
+
         // Redirect immediately
         res.redirect(url.original_url);
 
         // Async Geolocation and Visit Recording
         (async () => {
             try {
-                const ip = req.headers['x-forwarded-for']?.split(',')[0] || 
-                           req.headers['x-real-ip'] || 
-                           req.socket.remoteAddress;
-                
+                const ip = req.headers['x-forwarded-for']?.split(',')[0] ||
+                    req.headers['x-real-ip'] ||
+                    req.socket.remoteAddress;
+
                 let country = 'Unknown';
                 let city = 'Unknown';
 
                 // Skip geolocation for local IPs
                 if (ip && ip !== '::1' && ip !== '127.0.0.1' && !ip.startsWith('192.168.')) {
                     try {
-                        const geoRes = await fetch(`https://ipapi.co/${ip}/json/`);
+                        const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,status`);
                         const geoData = await geoRes.json();
-                        country = geoData.country_name || 'Unknown';
-                        city = geoData.city || 'Unknown';
+                        if (geoData.status === 'success') {
+                            country = geoData.country || 'Unknown';
+                            city = geoData.city || 'Unknown';
+                        }
+                        console.log('IP detected:', ip);
+                        console.log('Geo data:', geoData);
                     } catch (geoErr) {
                         console.error('Geolocation API failed:', geoErr);
                     }
