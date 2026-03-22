@@ -178,8 +178,8 @@ const Settings = () => {
                 </ScrollReveal>
 
                 {/* Password Management */}
-                <ScrollReveal delay={0.1}>
-                    <div className={cardClass}>
+                <ScrollReveal delay={0.1} className="h-full">
+                    <div className={`${cardClass} h-full flex flex-col`}>
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-10 h-10 bg-[#4988C4]/20 rounded-xl flex items-center justify-center">
                                 <Lock className="text-[#6aa8ff]" size={20} />
@@ -270,7 +270,8 @@ const Settings = () => {
 
             {/* Danger Zone */}
             <ScrollReveal delay={0.2}>
-                <div className="bg-red-500/5 border border-red-500/20 rounded-2xl p-6 shadow-xl relative overflow-hidden group">
+                <div className="g-red-500/5 border border-red-500/20 rounded-2xl p-6 shadow-xl relative overflow-hidden group
+hover:shadow-lg hover:shadow-red-500/10 hover:border-red-500/40 hover:-translate-y-1 transition-all duration-300">
                     <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform duration-500">
                         <AlertTriangle size={120} className="text-red-500" />
                     </div>
