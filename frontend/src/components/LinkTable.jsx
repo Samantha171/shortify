@@ -1,16 +1,17 @@
-import { Copy, Trash2, BarChart2, ExternalLink, Edit3, QrCode } from 'lucide-react';
+import { Copy, Trash2, BarChart2, ExternalLink, Edit3, QrCode, Link as LinkIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import API from '../services/api';
 import { useState } from 'react';
 import QRModal from './QRModal';
 import EditLinkModal from './EditLinkModal';
+import { toast } from 'react-toastify';
 
 
 const LinkTable = ({ urls, refresh, showActions = true }) => {
 
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text);
-        alert('Copied to clipboard!');
+        toast('Link copied', { icon: <LinkIcon size={16} className="text-[#6aa8ff]" /> });
     };
 
     const handleDelete = async (id) => {
@@ -43,7 +44,7 @@ const LinkTable = ({ urls, refresh, showActions = true }) => {
     const baseUrl = 'https://shortify-backend-ch6j.onrender.com/r/';
 
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto max-w-full">
             <table className="w-full text-left">
                 <thead>
                     <tr className="text-white/30 text-xs uppercase tracking-widest border-b border-white/10">

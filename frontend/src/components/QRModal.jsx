@@ -1,6 +1,7 @@
-import { X, Download, Copy } from 'lucide-react';
+import { X, Download, Copy, Link as LinkIcon } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { downloadQR } from '../utils/qrGenerator';
+import { toast } from 'react-toastify';
 
 const QRModal = ({ isOpen, onClose, url }) => {
     if (!isOpen || !url) return null;
@@ -9,7 +10,7 @@ const QRModal = ({ isOpen, onClose, url }) => {
 
     const handleCopy = () => {
         navigator.clipboard.writeText(shortUrl);
-        alert('Short link copied!');
+        toast('Link copied', { icon: <LinkIcon size={16} className="text-[#6aa8ff]" /> });
     };
 
     return (

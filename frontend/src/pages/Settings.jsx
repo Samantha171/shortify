@@ -1,17 +1,20 @@
 import { useAuth } from '../context/AuthContext';
+import ScrollReveal from '../components/ScrollReveal';
 import { User, Mail, Shield, LogOut, Trash2 } from 'lucide-react';
 
 const Settings = () => {
     const { user, logout } = useAuth();
 
     return (
-        <div className="space-y-8 animate-in slide-in-from-top-5 duration-500">
-            <div>
-                <h1 className="text-3xl font-extrabold tracking-tight text-white mb-2">Account Settings</h1>
-                <p className="text-gray-400">Manage your profile and security preferences.</p>
-            </div>
+        <div className="space-y-8">
+            <ScrollReveal>
+                <div>
+                    <h1 className="text-3xl font-extrabold tracking-tight text-white mb-2">Account Settings</h1>
+                    <p className="text-gray-400">Manage your profile and security preferences.</p>
+                </div>
+            </ScrollReveal>
 
-            <div className="max-w-2xl bg-shortify-card rounded-3xl p-10 border border-shortify-card/50 shadow-2xl">
+            <ScrollReveal className="max-w-2xl bg-shortify-card rounded-3xl p-10 border border-shortify-card/50 shadow-2xl">
                 <div className="flex items-center space-x-6 mb-12">
                     <div className="w-24 h-24 bg-shortify-btn rounded-3xl flex items-center justify-center text-white ring-4 ring-shortify-highlight/20 border-4 border-shortify-bg">
                         <User size={40} />
@@ -65,14 +68,14 @@ const Settings = () => {
                         </button>
                     </div>
                 </div>
-            </div>
+            </ScrollReveal>
             
-            <div className="max-w-2xl p-6 bg-shortify-highlight/5 border border-shortify-highlight/20 rounded-2xl flex items-center space-x-4">
+            <ScrollReveal className="max-w-2xl p-6 bg-shortify-highlight/5 border border-shortify-highlight/20 rounded-2xl flex items-center space-x-4">
                  <Shield className="text-shortify-highlight shrink-0" size={24} />
                  <p className="text-sm text-gray-400">
                     Your account is secured with 256-bit encryption. We never share your original URLs or tracking data with third parties.
                  </p>
-            </div>
+            </ScrollReveal>
         </div>
     );
 };

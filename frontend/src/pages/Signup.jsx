@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Mail, Lock, User, Loader2, Link2 } from 'lucide-react';
+import { Mail, Lock, User, Loader2, Link2, Eye, EyeOff } from 'lucide-react';
 
 const Signup = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const { signup } = useAuth();
@@ -35,10 +36,20 @@ const Signup = () => {
         <div className="min-h-screen flex items-center justify-center bg-[#0B1220] p-4 relative overflow-hidden">
 
             {/* Glow orbs */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-400/10 blur-[100px] rounded-full pointer-events-none" />
 
-            <div className="relative z-10 w-full max-w-md">
+            {/* Top-left Branding */}
+            <Link to="/" className="absolute top-8 left-8 flex items-center gap-3 group z-20 hover:opacity-80 transition-opacity">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4988C4] to-[#6aa8ff]
+                flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
+                    <Link2 size={18} className="text-white" />
+                </div>
+                <div>
+                    <h1 className="text-xl font-bold text-white tracking-wide">Shortify</h1>
+                </div>
+            </Link>
+
+            <div className="relative z-10 w-full max-w-lg">
 
                 {/* Logo */}
                 <div className="flex items-center justify-center gap-3 mb-8">
@@ -105,13 +116,21 @@ const Signup = () => {
                             <div className="relative">
                                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={16} />
                                 <input
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     className={inputClass}
                                     placeholder="••••••••"
                                     required
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/70 transition-colors"
+                                    tabIndex={-1}
+                                >
+                                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                </button>
                             </div>
                         </div>
 

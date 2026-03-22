@@ -3,7 +3,10 @@ import { useParams, Link } from 'react-router-dom';
 import API from '../services/api';
 import VisitList from '../components/VisitList';
 import ClickTrendChart from '../components/ClickTrendChart';
-import { BarChart2, Calendar, MousePointer2, ArrowLeft, ExternalLink, Globe, Clock, TrendingUp, Share2 } from 'lucide-react';
+import ScrollReveal from '../components/ScrollReveal';
+import Tilt from 'react-parallax-tilt';
+import { BarChart2, Calendar, MousePointer2, ArrowLeft, ExternalLink, Globe, Clock, TrendingUp, Share2, Link as LinkIcon } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const Analytics = () => {
     const { id } = useParams();
@@ -28,7 +31,10 @@ const Analytics = () => {
                 setLoading(false);
             }
         };
+
         fetchAnalytics();
+        const interval = setInterval(fetchAnalytics, 10000);
+        return () => clearInterval(interval);
     }, [id]);
 
     if (!id) {
@@ -66,7 +72,7 @@ const Analytics = () => {
     const handleShare = () => {
         const publicUrl = `${window.location.origin}/r/${url.short_code}/stats`;
         navigator.clipboard.writeText(publicUrl);
-        alert('Public stats link copied to clipboard!');
+        toast('Link copied', { icon: <LinkIcon size={16} className="text-[#6aa8ff]" /> });
     };
 
     return (
@@ -95,7 +101,7 @@ const Analytics = () => {
             </div>
 
             {/* 1. Original URL card — full width */}
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+            <ScrollReveal className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
                 <p className="text-white/30 text-xs font-medium uppercase tracking-wider mb-3">
                     Original URL
                 </p>
@@ -120,26 +126,31 @@ const Analytics = () => {
                         </span>
                     </div>
                 </div>
-            </div>
+            </ScrollReveal>
 
             {/* 2. Middle row — chart left, stats right */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                 {/* Click Trends chart — left 2/3 */}
-                <div className="lg:col-span-2 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+                <ScrollReveal className="lg:col-span-2 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex flex-col w-full h-full">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="w-8 h-8 bg-[#4988C4]/20 rounded-lg flex items-center justify-center">
                             <TrendingUp className="text-[#6aa8ff]" size={15} />
                         </div>
                         <h2 className="text-sm font-semibold text-white">Click trends</h2>
                     </div>
-                    <ClickTrendChart data={trends} />
-                </div>
+                    <div className="flex-1 w-full min-h-0">
+                        <ClickTrendChart data={trends} />
+                    </div>
+                </ScrollReveal>
 
                 {/* Stats — right 1/3 */}
                 <div className="flex flex-col gap-6">
                     {/* Top Locations */}
-                    <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex-1">
+                    <ScrollReveal>
+                        <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000} className="flex-1">
+                            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 h-full
+                            hover:border-emerald-500/50 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-all duration-300">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center">
                                 <Globe className="text-emerald-400" size={15} />
@@ -161,11 +172,16 @@ const Analytics = () => {
                                 <p className="text-[10px] text-white/20 italic text-center py-4">No location data yet</p>
                             )}
                         </div>
-                    </div>
+                        </div>
+                        </Tilt>
+                    </ScrollReveal>
+
 
                     {/* Total Interactions */}
-                    <div className="bg-gradient-to-br from-[#4988C4] to-[#6aa8ff] rounded-2xl p-6
-                    shadow-lg shadow-blue-500/20 flex flex-col items-center text-center">
+                    <ScrollReveal>
+                        <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000}>
+                            <div className="bg-gradient-to-br from-[#4988C4] to-[#6aa8ff] rounded-2xl p-6
+                            shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 hover:scale-[1.02] flex flex-col items-center text-center transition-all duration-300">
                         <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
                             <MousePointer2 className="text-white" size={22} />
                         </div>
@@ -173,11 +189,15 @@ const Analytics = () => {
                             Total interactions
                         </p>
                         <p className="text-5xl font-black text-white">{totalClicks}</p>
-                    </div>
+                            </div>
+                        </Tilt>
+                    </ScrollReveal>
 
                     {/* Last Impact */}
-                    <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6
-                    flex flex-col items-center text-center">
+                    <ScrollReveal>
+                        <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000}>
+                            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6
+                            hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] flex flex-col items-center text-center transition-all duration-300">
                         <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-4">
                             <Clock className="text-[#6aa8ff]" size={22} />
                         </div>
@@ -190,12 +210,14 @@ const Analytics = () => {
                         <p className="text-xs text-white/30 mt-1">
                             {lastVisited ? new Date(lastVisited).toLocaleTimeString() : '—'}
                         </p>
-                    </div>
+                            </div>
+                        </Tilt>
+                    </ScrollReveal>
                 </div>
             </div>
 
             {/* 3. Recent Visits Timeline — full width */}
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+            <ScrollReveal className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-5">
                     <h2 className="text-sm font-semibold text-white">Recent visits timeline</h2>
                     <span className="text-[10px] text-white/30 uppercase tracking-wider font-medium
@@ -204,7 +226,7 @@ const Analytics = () => {
                     </span>
                 </div>
                 <VisitList visits={recentVisits} />
-            </div>
+            </ScrollReveal>
 
         </div>
     );

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import API from '../services/api';
 import QRTable from '../components/QRTable';
+import ScrollReveal from '../components/ScrollReveal';
 
 const QR = () => {
     const [urls, setUrls] = useState([]);
@@ -30,7 +31,7 @@ const QR = () => {
                 </p>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+            <ScrollReveal className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
                 {loading ? (
                     <div className="py-16 flex justify-center">
                         <div className="w-8 h-8 border-2 border-[#4988C4] border-t-transparent rounded-full animate-spin" />
@@ -45,7 +46,7 @@ const QR = () => {
                 ) : (
                     <QRTable urls={urls} />
                 )}
-            </div>
+            </ScrollReveal>
         </div>
     );
 };

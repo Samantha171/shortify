@@ -3,14 +3,14 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const ClickTrendChart = ({ data }) => {
     if (!data || data.length === 0) {
         return (
-            <div className="h-64 flex items-center justify-center text-gray-500 bg-white/5 rounded-2xl border border-white/5 font-medium">
+            <div className="w-full h-full min-h-[250px] flex items-center justify-center text-gray-500 bg-white/5 rounded-2xl border border-white/5 font-medium">
                 No trend data available for this link yet.
             </div>
         );
     }
 
     return (
-        <div className="h-64 w-full">
+        <div className="w-full h-full min-h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />

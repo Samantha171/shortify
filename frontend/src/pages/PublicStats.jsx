@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import ClickTrendChart from '../components/ClickTrendChart';
+import Tilt from 'react-parallax-tilt';
 import { BarChart2, Calendar, MousePointer2, Globe, Clock, TrendingUp, ExternalLink, ArrowLeft } from 'lucide-react';
 
 const PublicStats = () => {
@@ -22,7 +23,10 @@ const PublicStats = () => {
                 setLoading(false);
             }
         };
+
         fetchStats();
+        const interval = setInterval(fetchStats, 10000);
+        return () => clearInterval(interval);
     }, [short_code]);
 
     if (loading) return (
@@ -104,7 +108,9 @@ const PublicStats = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     
                     {/* Trend Chart */}
-                    <div className="lg:col-span-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
+                    <Tilt tiltMaxAngleX={2} tiltMaxAngleY={2} glareEnable={false} transitionSpeed={2000} className="lg:col-span-2">
+                        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 h-full flex flex-col w-full
+                        hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] transition-all duration-300">
                         <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 bg-[#4988C4]/20 rounded-xl flex items-center justify-center">
@@ -113,15 +119,18 @@ const PublicStats = () => {
                                 <h3 className="font-bold">Click Activity</h3>
                             </div>
                         </div>
-                        <div className="h-[250px]">
+                        <div className="flex-1 w-full min-h-0">
                             <ClickTrendChart data={trend} />
                         </div>
-                    </div>
+                        </div>
+                    </Tilt>
 
                     {/* Quick Stats */}
                     <div className="space-y-8">
                         {/* Top Locations */}
-                        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
+                        <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000}>
+                            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8
+                            hover:border-emerald-500/50 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] transition-all duration-300">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center">
                                     <Globe className="text-emerald-400" size={20} />
@@ -141,16 +150,22 @@ const PublicStats = () => {
                                 )}
                             </div>
                         </div>
+                        </Tilt>
 
-                        <div className="bg-gradient-to-br from-[#4988C4] to-[#6aa8ff] rounded-3xl p-8 shadow-2xl shadow-blue-500/20">
+                        <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000}>
+                            <div className="bg-gradient-to-br from-[#4988C4] to-[#6aa8ff] rounded-3xl p-8 shadow-2xl shadow-blue-500/20
+                            hover:shadow-blue-500/50 transition-all duration-300">
                             <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
                                 <MousePointer2 className="text-white" size={24} />
                             </div>
                             <p className="text-white/60 text-xs font-bold uppercase tracking-widest mb-1">Total Clicks</p>
                             <p className="text-6xl font-black text-white">{total_clicks}</p>
-                        </div>
+                            </div>
+                        </Tilt>
 
-                        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
+                        <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000}>
+                            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8
+                            hover:border-blue-500/50 transition-all duration-300">
                             <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mb-6">
                                 <Clock className="text-[#6aa8ff]" size={24} />
                             </div>
@@ -161,7 +176,8 @@ const PublicStats = () => {
                             <p className="text-white/30 text-xs mt-1">
                                 {recent_visits.length > 0 ? new Date(recent_visits[0]).toLocaleTimeString() : '--:--'}
                             </p>
-                        </div>
+                            </div>
+                        </Tilt>
                     </div>
                 </div>
 

@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -16,8 +18,9 @@ import SplashCursor from './components/SplashCursor';
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
+        <ToastContainer position="top-right" autoClose={5000} theme="dark" />
         <SplashCursor BACK_COLOR={{ r: 0, g: 0, b: 0 }} />
         <Routes>
           <Route path="/" element={<Landing />} />
@@ -38,8 +41,8 @@ function App() {
           <Route path="/expired" element={<Expired />} />
           <Route path="/r/:short_code/stats" element={<PublicStats />} />
         </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

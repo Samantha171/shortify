@@ -3,6 +3,7 @@ import API from '../services/api';
 import LinkTable from '../components/LinkTable';
 import CreateLinkModal from '../components/CreateLinkModal';
 import BulkUploadModal from '../components/BulkUploadModal';
+import ScrollReveal from '../components/ScrollReveal';
 import { Plus, Search, Upload } from 'lucide-react';
 
 const Links = () => {
@@ -25,6 +26,8 @@ const Links = () => {
 
     useEffect(() => {
         fetchData();
+        const interval = setInterval(fetchData, 10000);
+        return () => clearInterval(interval);
     }, []);
 
     const filteredUrls = urls.filter(url =>
@@ -39,16 +42,13 @@ const Links = () => {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-white">Links</h1>
-                    <p className="text-white/40 text-sm mt-1">
-                        Manage and track your shortened URLs
-                    </p>
                 </div>
                 <div className="flex items-center gap-3">
                     <button
                         onClick={() => setIsBulkModalOpen(true)}
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm
-                        bg-white/5 border border-white/10 text-white/70
-                        hover:bg-white/10 hover:text-white transition-all duration-200"
+                        bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white
+                        shadow-lg shadow-blue-500/30 hover:scale-105 transition-all duration-200"
                     >
                         <Upload size={17} />
                         <span>Upload CSV</span>
@@ -66,7 +66,7 @@ const Links = () => {
             </div>
 
             {/* Search + Table Card */}
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+            <ScrollReveal className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
 
                 {/* Search Bar */}
                 <div className="relative max-w-md mb-6">
@@ -91,7 +91,7 @@ const Links = () => {
                 ) : (
                     <LinkTable urls={filteredUrls} refresh={fetchData} showActions={true} />
                 )}
-            </div>
+            </ScrollReveal>
 
             <CreateLinkModal
                 isOpen={isCreateModalOpen}

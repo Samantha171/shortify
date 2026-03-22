@@ -14,6 +14,7 @@ CREATE TABLE urls (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expiry_date TIMESTAMP,
     click_count INTEGER DEFAULT 0,
+    qr_generated BOOLEAN DEFAULT FALSE,
     is_active BOOLEAN DEFAULT TRUE
 );
 

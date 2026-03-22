@@ -1,10 +1,11 @@
-import { Copy, Download, ExternalLink } from 'lucide-react';
+import { Copy, Download, ExternalLink, Link as LinkIcon } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
+import { toast } from 'react-toastify';
 
 const QRTable = ({ urls }) => {
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text);
-        alert('Short link copied!');
+        toast('Link copied', { icon: <LinkIcon size={16} className="text-[#6aa8ff]" /> });
     };
 
     const downloadQR = (id, shortCode) => {
@@ -23,7 +24,7 @@ const QRTable = ({ urls }) => {
     const baseUrl = 'https://shortify-backend-ch6j.onrender.com/r/';
 
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto max-w-full">
             <table className="w-full text-left">
                 <thead>
                     <tr className="text-gray-400 text-xs uppercase tracking-widest border-b border-shortify-card/50">

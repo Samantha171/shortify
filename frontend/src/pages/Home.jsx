@@ -5,6 +5,8 @@ import BulkUploadModal from '../components/BulkUploadModal';
 import API from '../services/api';
 import { Plus, LayoutGrid, List, Upload } from 'lucide-react';
 import LinkTable from '../components/LinkTable';
+import ScrollReveal from '../components/ScrollReveal';
+import Tilt from 'react-parallax-tilt';
 
 const Home = () => {
     const [stats, setStats] = useState({ total_links: 0, total_clicks: 0, active_links: 0 });
@@ -56,16 +58,13 @@ const Home = () => {
                     <h1 className="text-2xl font-bold text-white tracking-tight">
                         Dashboard Overview
                     </h1>
-                    <p className="text-white/40 text-sm mt-1">
-                        Manage and track your shortened URLs.
-                    </p>
                 </div>
                 <div className="flex items-center gap-3">
                     <button
                         onClick={() => setIsBulkModalOpen(true)}
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm
-                        bg-white/5 border border-white/10 text-white/70
-                        hover:bg-white/10 hover:text-white transition-all duration-200"
+                        bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white
+                        shadow-lg shadow-blue-500/30 hover:scale-105 transition-all duration-200"
                     >
                         <Upload size={17} />
                         <span>Upload CSV</span>
@@ -83,14 +82,16 @@ const Home = () => {
             </div>
 
             {/* Stat Cards */}
-            <StatCards
-                totalLinks={stats.total_links}
-                totalClicks={stats.total_clicks || 0}
-                activeLinks={stats.active_links || 0}
-            />
+            <ScrollReveal>
+                <StatCards
+                    totalLinks={stats.total_links}
+                    totalClicks={stats.total_clicks || 0}
+                    activeLinks={stats.active_links || 0}
+                />
+            </ScrollReveal>
 
             {/* Recent Links */}
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+            <ScrollReveal className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-base font-semibold text-white">Recent Links</h2>
                     <div className="flex items-center gap-1 bg-white/5 p-1 rounded-lg border border-white/10">
@@ -124,9 +125,9 @@ const Home = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {urls.slice(0, 6).map((url) => (
-                            <div key={url.url_id}
-                                className="bg-white/5 border border-white/10 rounded-xl p-4 
-                                hover:border-[#4988C4]/40 transition-all duration-200">
+                            <Tilt key={url.url_id} tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000}>
+                                <div className="bg-white/5 border border-white/10 rounded-xl p-4 h-full
+                                hover:border-[#4988C4]/50 hover:shadow-[0_0_20px_rgba(73,136,196,0.2)] transition-all duration-200">
                                 <div className="flex items-start justify-between gap-3 mb-3">
                                     <p className="text-white/60 text-xs truncate flex-1">
                                         {url.original_url}
@@ -151,6 +152,7 @@ const Home = () => {
                                     <span className="text-orange-400">{new Date(url.created_at).toLocaleDateString()}</span>
                                 </div>
                             </div>
+                            </Tilt>
                         ))}
                         {urls.length === 0 && (
                             <div className="col-span-2 py-12 text-center text-white/30 text-sm">
@@ -159,7 +161,7 @@ const Home = () => {
                         )}
                     </div>
                 )}
-            </div>
+            </ScrollReveal>
 
             <CreateLinkModal
                 isOpen={isCreateModalOpen}
