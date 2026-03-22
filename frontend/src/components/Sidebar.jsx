@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Link2, QrCode, BarChart2, Settings, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
     const location = useLocation();
@@ -41,8 +42,8 @@ const Sidebar = () => {
                             key={item.name}
                             to={item.path}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${isActive
-                                    ? 'bg-[#4988C4]/20 text-white border border-[#4988C4]/30'
-                                    : 'text-white/40 hover:text-white hover:bg-white/5'
+                                ? 'bg-[#4988C4]/20 text-white border border-[#4988C4]/30'
+                                : 'text-white/40 hover:text-white hover:bg-white/5'
                                 }`}
                         >
                             <item.icon
@@ -58,7 +59,7 @@ const Sidebar = () => {
             {/* Logout */}
             <div className="p-4 border-t border-white/8">
                 <button
-                    onClick={logout}
+                    onClick={() => { logout(); navigate('/'); }}
                     className="flex items-center gap-3 text-white/40 hover:text-red-400
                     hover:bg-red-500/10 rounded-xl px-4 py-2.5 transition-all w-full"
                 >
