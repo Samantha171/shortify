@@ -40,7 +40,7 @@ const getUserProfile = async (userId) => {
 
 const changePassword = async (userId, newPassword) => {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await db.query('UPDATE users SET password = $1 WHERE user_id = $1', [hashedPassword, userId]);
+    await db.query('UPDATE users SET password = $1 WHERE user_id = $2', [hashedPassword, userId]);
 };
 
 const deleteAccount = async (userId) => {
