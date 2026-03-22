@@ -117,7 +117,7 @@ const Settings = () => {
                 </div>
             </ScrollReveal>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Profile Information */}
                 <ScrollReveal className="space-y-6">
                     <div className={`${cardClass} h-full min-h-[520px]`}>
