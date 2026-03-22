@@ -101,13 +101,13 @@ const redirect = async (req, res) => {
 
                 if (ip && ip !== '::1' && ip !== '127.0.0.1' && !ip.startsWith('192.168.')) {
                     try {
-                        const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,status`);
+                        const geoRes = await fetch(`https://ipwho.is/${ip}`);
                         const geoData = await geoRes.json();
-                        
-                        if (geoData.status === 'success') {
+
+                        if (geoData.success === true) {
                             const country = geoData.country || 'Unknown';
                             const city = geoData.city || 'Unknown';
-                            
+
                             // 3. Update with real data
                             await db.query(
                                 'UPDATE visits SET country = $1, city = $2 WHERE visit_id = $3',
