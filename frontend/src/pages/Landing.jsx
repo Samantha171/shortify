@@ -140,7 +140,7 @@ const Landing = () => {
             </nav>
 
             {/* Hero */}
-            <main className="relative z-10 max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+            <main className="relative z-10 max-w-4xl mx-auto px-6 pt-8 pb-16 text-center">
                 {/* Badge */}
                 <div className="inline-flex items-center gap-2 bg-[#4988C4]/10 border border-[#4988C4]/20
                 px-4 py-1.5 rounded-full text-xs font-medium text-[#6aa8ff] mb-8">
