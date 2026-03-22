@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Link2, QrCode, BarChart2, Settings, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
     const location = useLocation();
@@ -58,7 +59,7 @@ const Sidebar = () => {
             {/* Logout */}
             <div className="p-4 border-t border-white/8">
                 <button
-                    onClick={logout}
+                    onClick={() => { logout(); navigate('/'); }}
                     className="flex items-center gap-3 text-white/40 hover:text-red-400
                     hover:bg-red-500/10 rounded-xl px-4 py-2.5 transition-all w-full"
                 >

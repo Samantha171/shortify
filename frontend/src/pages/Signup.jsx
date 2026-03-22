@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Mail, Lock, User, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, Loader2, Link2 } from 'lucide-react';
 
 const Signup = () => {
     const [name, setName] = useState('');
@@ -26,81 +26,116 @@ const Signup = () => {
         }
     };
 
+    const inputClass = `w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4
+        text-white text-sm placeholder-white/30
+        focus:outline-none focus:ring-1 focus:ring-[#4988C4]/50 focus:border-[#4988C4]/50
+        transition-all`;
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-shortify-bg p-4 text-white font-sans">
-            <div className="w-full max-w-md bg-shortify-card p-8 rounded-2xl shadow-2xl border border-shortify-card/50">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-shortify-highlight tracking-tight">SHORTIFY</h1>
-                    <p className="text-gray-400 mt-2">Join us today! Create your account.</p>
+        <div className="min-h-screen flex items-center justify-center bg-[#0B1220] p-4 relative overflow-hidden">
+
+            {/* Glow orbs */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-400/10 blur-[100px] rounded-full pointer-events-none" />
+
+            <div className="relative z-10 w-full max-w-md">
+
+                {/* Logo */}
+                <div className="flex items-center justify-center gap-3 mb-8">
+                    <div className="w-10 h-10 bg-gradient-to-br from-[#4988C4] to-[#6aa8ff] rounded-xl
+                    flex items-center justify-center shadow-lg shadow-blue-500/30">
+                        <Link2 size={20} className="text-white" />
+                    </div>
+                    <span className="text-2xl font-bold text-white tracking-wide">Shortify</span>
                 </div>
 
-                {error && (
-                    <div className="bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded-lg text-sm mb-6 text-center text-white">
-                        {error}
-                    </div>
-                )}
+                {/* Card */}
+                <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8">
 
-                <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-300">Full Name</label>
-                        <div className="relative text-white">
-                            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="w-full bg-shortify-bg border border-shortify-card/50 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-shortify-btn text-sm"
-                                placeholder="John Doe"
-                                required
-                            />
+                    <div className="text-center mb-6">
+                        <h1 className="text-xl font-bold text-white">Create your account</h1>
+                        <p className="text-white/40 text-sm mt-1">Start shortening links for free</p>
+                    </div>
+
+                    {error && (
+                        <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-3 rounded-xl text-sm mb-5 text-center">
+                            {error}
                         </div>
-                    </div>
+                    )}
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-300">Email Address</label>
-                        <div className="relative text-white">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-shortify-bg border border-shortify-card/50 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-shortify-btn text-sm"
-                                placeholder="name@company.com"
-                                required
-                            />
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-white/50 uppercase tracking-wider">
+                                Full Name
+                            </label>
+                            <div className="relative">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={16} />
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className={inputClass}
+                                    placeholder="John Doe"
+                                    required
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-300">Password</label>
-                        <div className="relative text-white">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-shortify-bg border border-shortify-card/50 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-shortify-btn text-sm"
-                                placeholder="••••••••"
-                                required
-                            />
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-white/50 uppercase tracking-wider">
+                                Email Address
+                            </label>
+                            <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={16} />
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className={inputClass}
+                                    placeholder="name@company.com"
+                                    required
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full bg-shortify-btn hover:bg-shortify-btn/90 text-white py-3 rounded-xl font-bold transition-all flex items-center justify-center space-x-2 shadow-lg shadow-shortify-btn/20 mt-4"
-                    >
-                        {loading ? <Loader2 className="animate-spin" size={20} /> : 'Create Account'}
-                    </button>
-                </form>
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-white/50 uppercase tracking-wider">
+                                Password
+                            </label>
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={16} />
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className={inputClass}
+                                    placeholder="••••••••"
+                                    required
+                                />
+                            </div>
+                        </div>
 
-                <p className="text-center text-sm text-gray-400 mt-8">
-                    Already have an account?{' '}
-                    <Link to="/login" className="text-shortify-highlight font-semibold hover:underline">
-                        Log in
-                    </Link>
-                </p>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full flex items-center justify-center gap-2 mt-2
+                            bg-gradient-to-r from-[#4988C4] to-[#6aa8ff]
+                            text-white font-semibold py-3 rounded-xl
+                            shadow-lg shadow-blue-500/30
+                            hover:scale-[1.02] transition-all duration-200
+                            disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {loading ? <Loader2 className="animate-spin" size={18} /> : 'Create Account →'}
+                        </button>
+                    </form>
+
+                    <p className="text-center text-sm text-white/40 mt-6">
+                        Already have an account?{' '}
+                        <Link to="/login" className="text-[#6aa8ff] font-medium hover:underline">
+                            Log in
+                        </Link>
+                    </p>
+                </div>
             </div>
         </div>
     );
