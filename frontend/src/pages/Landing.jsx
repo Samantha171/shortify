@@ -108,7 +108,7 @@ const Landing = () => {
                             <Link to="/signup" className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm
                                 bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white
                                 shadow-lg shadow-blue-500/30 hover:scale-105 transition-all">
-                                Get Started
+                                Get Started →
                             </Link>
                         </>
                     )}
@@ -134,15 +134,10 @@ const Landing = () => {
                 </div>
 
                 <div className="flex items-center justify-center gap-5 mt-10">
-                    <Link to="/signup" className="flex items-center gap-2 px-10 py-4 rounded-2xl font-black text-base
-                        bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white
-                        shadow-xl shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all">
-                        Get Started Free →
-                    </Link>
                     <button onClick={() => setShowDemo(true)}
                         className="flex items-center gap-2 px-10 py-4 rounded-2xl font-black text-base
-                        bg-white/5 border border-white/10 text-white/70 hover:text-white
-                        hover:bg-white/10 transition-all">
+                        bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white
+                        shadow-xl shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all">
                         View Demo
                     </button>
                 </div>
