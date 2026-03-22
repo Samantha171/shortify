@@ -4,6 +4,14 @@ const { generateCode } = require('../../utils/generateCode');
 const createUrl = async (userId, originalUrl, expiryDate, customAlias) => {
     let shortCode;
 
+    const existing = await db.query(
+        'SELECT url_id FROM urls WHERE user_id = $1 AND original_url = $2 AND is_active = TRUE',
+        [userId, originalUrl]
+    );
+    if (existing.rows.length > 0) {
+        throw new Error('You already have a short link for this URL');
+    }
+
     if (customAlias) {
         const existing = await findByShortCode(customAlias);
         if (existing) {
