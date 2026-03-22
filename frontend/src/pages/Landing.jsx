@@ -118,9 +118,11 @@ const Landing = () => {
             {/* Hero */}
             <main className="relative z-10 max-w-4xl mx-auto px-6 pt-8 pb-10 text-center">
 
-
                 <h1 className="text-5xl md:text-7xl lg:text-[84px] font-black mb-6 leading-[1.1] tracking-[-0.02em] px-4 font-sans">
-                    Shorten Your Links, Expand Your Reach<br />
+                    Shorten Your Links,{' '}
+                    <span className="bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] bg-clip-text text-transparent">
+                        Expand Your Reach
+                    </span>
                 </h1>
 
                 <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-medium px-4">
