@@ -87,33 +87,37 @@ const redirect = async (req, res) => {
         // Async Geolocation and Visit Recording
         (async () => {
             try {
+                // 1. Initial Insert with defaults
+                const { rows } = await db.query(
+                    'INSERT INTO visits (url_id, country, city) VALUES ($1, $2, $3) RETURNING visit_id',
+                    [url.url_id, 'Unknown', 'Unknown']
+                );
+                const visitId = rows[0].visit_id;
+
+                // 2. Try Geolocation
                 const ip = req.headers['x-forwarded-for']?.split(',')[0] ||
                     req.headers['x-real-ip'] ||
                     req.socket.remoteAddress;
 
-                let country = 'Unknown';
-                let city = 'Unknown';
-
-                // Skip geolocation for local IPs
                 if (ip && ip !== '::1' && ip !== '127.0.0.1' && !ip.startsWith('192.168.')) {
                     try {
                         const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,status`);
                         const geoData = await geoRes.json();
+                        
                         if (geoData.status === 'success') {
-                            country = geoData.country || 'Unknown';
-                            city = geoData.city || 'Unknown';
+                            const country = geoData.country || 'Unknown';
+                            const city = geoData.city || 'Unknown';
+                            
+                            // 3. Update with real data
+                            await db.query(
+                                'UPDATE visits SET country = $1, city = $2 WHERE visit_id = $3',
+                                [country, city, visitId]
+                            );
                         }
-                        console.log('IP detected:', ip);
-                        console.log('Geo data:', geoData);
                     } catch (geoErr) {
                         console.error('Geolocation API failed:', geoErr);
                     }
                 }
-
-                await db.query(
-                    'INSERT INTO visits (url_id, country, city) VALUES ($1, $2, $3)',
-                    [url.url_id, country, city]
-                );
             } catch (err) {
                 console.error('Visit recording background task failed:', err);
             }

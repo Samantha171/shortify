@@ -140,7 +140,13 @@ const Analytics = () => {
                         <h2 className="text-sm font-semibold text-white">Click trends</h2>
                     </div>
                     <div className="flex-1 w-full min-h-0">
-                        <ClickTrendChart data={trends} />
+                        {trends && trends.length > 0 ? (
+                            <ClickTrendChart data={trends} />
+                        ) : (
+                            <div className="h-64 flex items-center justify-center text-white/20 bg-white/5 rounded-2xl border border-white/5 font-medium italic text-sm">
+                                No click data found yet
+                            </div>
+                        )}
                     </div>
                 </ScrollReveal>
 
@@ -225,7 +231,13 @@ const Analytics = () => {
                         Live feed
                     </span>
                 </div>
-                <VisitList visits={recentVisits} />
+                {recentVisits && recentVisits.length > 0 ? (
+                    <VisitList visits={recentVisits} />
+                ) : (
+                    <div className="py-10 text-center">
+                         <p className="text-white/20 text-sm italic">No recent visits recorded</p>
+                    </div>
+                )}
             </ScrollReveal>
 
         </div>

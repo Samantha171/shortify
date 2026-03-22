@@ -6,7 +6,7 @@ const getUrlAnalytics = async (urlId, userId) => {
     if (urlCheck.rows.length === 0) return null;
 
     const visits = await db.query(
-        'SELECT * FROM visits WHERE url_id = $1 ORDER BY visited_at DESC LIMIT 50',
+        'SELECT visited_at, country, city FROM visits WHERE url_id = $1 ORDER BY visited_at DESC LIMIT 5',
         [urlId]
     );
 
@@ -32,10 +32,10 @@ const getClickTrends = async (urlId, userId) => {
     if (urlCheck.rows.length === 0) return null;
 
     const result = await db.query(
-        `SELECT TO_CHAR(visited_at, 'YYYY-MM-DD') as date, COUNT(*) as clicks 
+        `SELECT DATE(visited_at) as date, COUNT(*) as clicks 
          FROM visits 
          WHERE url_id = $1 
-         GROUP BY date 
+         GROUP BY DATE(visited_at) 
          ORDER BY date ASC`,
         [urlId]
     );
@@ -50,15 +50,15 @@ const getPublicAnalytics = async (shortCode) => {
     const url = urlResult.rows[0];
 
     const visits = await db.query(
-        'SELECT visited_at FROM visits WHERE url_id = $1 ORDER BY visited_at DESC LIMIT 50',
+        'SELECT visited_at, country, city FROM visits WHERE url_id = $1 ORDER BY visited_at DESC LIMIT 5',
         [url.url_id]
     );
 
     const trend = await db.query(
-        `SELECT TO_CHAR(visited_at, 'YYYY-MM-DD') as date, COUNT(*) as clicks 
+        `SELECT DATE(visited_at) as date, COUNT(*) as clicks 
          FROM visits 
          WHERE url_id = $1 
-         GROUP BY date 
+         GROUP BY DATE(visited_at) 
          ORDER BY date ASC`,
         [url.url_id]
     );
