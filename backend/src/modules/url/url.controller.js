@@ -1,5 +1,6 @@
 const urlService = require('./url.service');
 const { parse } = require('csv-parse/sync');
+const db = require('../../config/db');
 
 const createUrl = async (req, res) => {
     const { original_url, expiry_date, custom_alias } = req.body;
@@ -60,28 +61,64 @@ const getStats = async (req, res) => {
 
 const redirect = async (req, res) => {
     const { short_code } = req.params;
+    const frontendUrl = process.env.FRONTEND_URL || 'https://shortify-app.vercel.app';
+    
     try {
         const url = await urlService.findByShortCode(short_code);
 
         if (!url) {
-            return res.redirect('http://localhost:5173/expired');
+            return res.redirect(`${frontendUrl}/expired`);
         }
 
         if (!url.is_active) {
-            return res.redirect('http://localhost:5173/expired');
+            return res.redirect(`${frontendUrl}/expired`);
         }
 
         if (url.expiry_date && new Date(url.expiry_date) < new Date()) {
             await urlService.deactivateUrl(url.url_id);
-            return res.redirect('http://localhost:5173/expired');
+            return res.redirect(`${frontendUrl}/expired`);
         }
 
         await urlService.incrementClickCount(url.url_id);
-        await urlService.recordVisit(url.url_id);
-
+        
+        // Redirect immediately
         res.redirect(url.original_url);
+
+        // Async Geolocation and Visit Recording
+        (async () => {
+            try {
+                const ip = req.headers['x-forwarded-for']?.split(',')[0] || 
+                           req.headers['x-real-ip'] || 
+                           req.socket.remoteAddress;
+                
+                let country = 'Unknown';
+                let city = 'Unknown';
+
+                // Skip geolocation for local IPs
+                if (ip && ip !== '::1' && ip !== '127.0.0.1' && !ip.startsWith('192.168.')) {
+                    try {
+                        const geoRes = await fetch(`https://ipapi.co/${ip}/json/`);
+                        const geoData = await geoRes.json();
+                        country = geoData.country_name || 'Unknown';
+                        city = geoData.city || 'Unknown';
+                    } catch (geoErr) {
+                        console.error('Geolocation API failed:', geoErr);
+                    }
+                }
+
+                await db.query(
+                    'INSERT INTO visits (url_id, country, city) VALUES ($1, $2, $3)',
+                    [url.url_id, country, city]
+                );
+            } catch (err) {
+                console.error('Visit recording background task failed:', err);
+            }
+        })();
+
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        if (!res.headersSent) {
+            res.status(500).json({ message: error.message });
+        }
     }
 };
 

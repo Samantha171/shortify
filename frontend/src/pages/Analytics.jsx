@@ -61,7 +61,7 @@ const Analytics = () => {
         </div>
     );
 
-    const { url, totalClicks, lastVisited, recentVisits } = analytics;
+    const { url, totalClicks, lastVisited, recentVisits, country_distribution } = analytics;
 
     const handleShare = () => {
         const publicUrl = `${window.location.origin}/r/${url.short_code}/stats`;
@@ -138,10 +138,34 @@ const Analytics = () => {
 
                 {/* Stats — right 1/3 */}
                 <div className="flex flex-col gap-6">
+                    {/* Top Locations */}
+                    <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex-1">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                                <Globe className="text-emerald-400" size={15} />
+                            </div>
+                            <h2 className="text-sm font-semibold text-white">Top locations</h2>
+                        </div>
+                        <div className="space-y-3">
+                            {country_distribution && country_distribution.length > 0 ? (
+                                country_distribution.slice(0, 5).map((item, index) => (
+                                    <div key={index} className="flex items-center justify-between group">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/40 group-hover:bg-emerald-500 transition-colors" />
+                                            <span className="text-xs text-white/70 font-medium">{item.country || 'Unknown'}</span>
+                                        </div>
+                                        <span className="text-xs text-white/30 font-mono">{item.clicks} clicks</span>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-[10px] text-white/20 italic text-center py-4">No location data yet</p>
+                            )}
+                        </div>
+                    </div>
 
                     {/* Total Interactions */}
                     <div className="bg-gradient-to-br from-[#4988C4] to-[#6aa8ff] rounded-2xl p-6
-                    shadow-lg shadow-blue-500/20 flex flex-col items-center text-center flex-1">
+                    shadow-lg shadow-blue-500/20 flex flex-col items-center text-center">
                         <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
                             <MousePointer2 className="text-white" size={22} />
                         </div>
@@ -153,7 +177,7 @@ const Analytics = () => {
 
                     {/* Last Impact */}
                     <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6
-                    flex flex-col items-center text-center flex-1">
+                    flex flex-col items-center text-center">
                         <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-4">
                             <Clock className="text-[#6aa8ff]" size={22} />
                         </div>

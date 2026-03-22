@@ -13,7 +13,8 @@ const PublicStats = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/public/${short_code}`);
+                const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+                const response = await axios.get(`${apiBase}/public/${short_code}`);
                 setStats(response.data);
             } catch (err) {
                 setError(err.response?.data?.message || 'Failed to fetch statistics');
@@ -42,7 +43,7 @@ const PublicStats = () => {
         </div>
     );
 
-    const { url_details, total_clicks, trend, recent_visits } = stats;
+    const { url_details, total_clicks, trend, recent_visits, country_distribution } = stats;
 
     return (
         <div className="min-h-screen bg-[#0a0a0a] text-white p-6 md:p-12">
@@ -119,6 +120,28 @@ const PublicStats = () => {
 
                     {/* Quick Stats */}
                     <div className="space-y-8">
+                        {/* Top Locations */}
+                        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center">
+                                    <Globe className="text-emerald-400" size={20} />
+                                </div>
+                                <h3 className="font-bold">Top Locations</h3>
+                            </div>
+                            <div className="space-y-4">
+                                {country_distribution && country_distribution.length > 0 ? (
+                                    country_distribution.slice(0, 5).map((item, index) => (
+                                        <div key={index} className="flex items-center justify-between">
+                                            <span className="text-sm text-white/70">{item.country || 'Unknown'}</span>
+                                            <span className="text-xs text-[#6aa8ff] font-bold">{item.clicks}</span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-white/20 text-xs italic text-center py-4">No location data captured</p>
+                                )}
+                            </div>
+                        </div>
+
                         <div className="bg-gradient-to-br from-[#4988C4] to-[#6aa8ff] rounded-3xl p-8 shadow-2xl shadow-blue-500/20">
                             <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
                                 <MousePointer2 className="text-white" size={24} />
