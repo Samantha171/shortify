@@ -40,7 +40,7 @@ const LinkTable = ({ urls, refresh, showActions = true }) => {
     const [qrUrl, setQrUrl] = useState(null);
     const [editUrl, setEditUrl] = useState(null);
 
-    const baseUrl = 'http://localhost:5000/r/';
+    const baseUrl = 'https://shortify-backend-ch6j.onrender.com/r/';
 
     return (
         <div className="overflow-x-auto">
