@@ -116,39 +116,31 @@ const redirect = async (req, res) => {
                     ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.');
 
                 if (!isLocal) {
+                    let country = 'Unknown';
+                    let city = 'Unknown';
                     try {
-                        let country = 'Unknown';
-                        let city = 'Unknown';
-
-                        // Try ipwho.is first
-                        try {
-                            const geoRes = await fetch(`https://ipwho.is/${ip}`);
-                            const geoData = await geoRes.json();
-                            if (geoData.success === true) {
-                                country = geoData.country || 'Unknown';
-                                city = geoData.city || 'Unknown';
-                            }
-                        } catch (e) {
-                            // Try ip-api as fallback
-                            try {
-                                const geoRes2 = await fetch(`https://ip-api.com/json/${ip}?fields=country,city,status`);
-                                const geoData2 = await geoRes2.json();
-                                if (geoData2.status === 'success') {
-                                    country = geoData2.country || 'Unknown';
-                                    city = geoData2.city || 'Unknown';
-                                }
-                            } catch (e2) {
-                                console.error('Both geo APIs failed');
-                            }
+                        const geoRes = await fetch(`https://ipwho.is/${ip}`);
+                        const geoData = await geoRes.json();
+                        if (geoData.success === true) {
+                            country = geoData.country || 'Unknown';
+                            city = geoData.city || 'Unknown';
                         }
-
-                        await db.query(
-                            'UPDATE visits SET country = $1, city = $2 WHERE visit_id = $3',
-                            [country, city, visitId]
-                        );
-                    } catch (geoErr) {
-                        console.error('Geolocation update failed:', geoErr);
+                    } catch (e) {
+                        try {
+                            const geoRes2 = await fetch(`https://ip-api.com/json/${ip}?fields=country,city,status`);
+                            const geoData2 = await geoRes2.json();
+                            if (geoData2.status === 'success') {
+                                country = geoData2.country || 'Unknown';
+                                city = geoData2.city || 'Unknown';
+                            }
+                        } catch (e2) {
+                            console.error('Both geo APIs failed');
+                        }
                     }
+                    await db.query(
+                        'UPDATE visits SET country = $1, city = $2 WHERE visit_id = $3',
+                        [country, city, visitId]
+                    );
                 }
             } catch (err) {
                 console.error('Visit recording failed:', err);
