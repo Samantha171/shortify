@@ -14,14 +14,14 @@ import DashboardLayout from './layouts/DashboardLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Expired from './components/Expired';
 import PublicStats from './pages/PublicStats';
-import SplashCursor from './components/SplashCursor';
+import { PixelCursorTrail } from './components/ui/pixel-trail';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <ToastContainer position="top-right" autoClose={5000} theme="dark" />
-        <SplashCursor BACK_COLOR={{ r: 0, g: 0, b: 0 }} />
+        <PixelCursorTrail />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
