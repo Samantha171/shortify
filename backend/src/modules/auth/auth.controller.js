@@ -1,3 +1,5 @@
+const db = require('../../config/db');
+const bcrypt = require('bcryptjs');
 const authService = require('./auth.service');
 const { generateToken } = require('./auth.utils');
 
