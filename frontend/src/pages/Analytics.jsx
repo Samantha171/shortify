@@ -5,8 +5,66 @@ import VisitList from '../components/VisitList';
 import ClickTrendChart from '../components/ClickTrendChart';
 import ScrollReveal from '../components/ScrollReveal';
 import Tilt from 'react-parallax-tilt';
-import { BarChart2, Calendar, MousePointer2, ArrowLeft, ExternalLink, Globe, Clock, TrendingUp, Share2, Link as LinkIcon } from 'lucide-react';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { BarChart2, Calendar, MousePointer2, ArrowLeft, ExternalLink, Globe, Clock, TrendingUp, Share2, Link as LinkIcon, Monitor, Smartphone } from 'lucide-react';
 import { toast } from 'react-toastify';
+
+const COLORS = ['#4988C4', '#6aa8ff', '#34d399', '#f59e0b', '#f87171', '#a78bfa'];
+
+const MiniPieChart = ({ data, title, icon }) => {
+    if (!data || data.length === 0) return (
+        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 bg-[#4988C4]/20 rounded-lg flex items-center justify-center">
+                    {icon}
+                </div>
+                <h2 className="text-sm font-semibold text-white">{title}</h2>
+            </div>
+            <p className="text-white/20 text-xs italic text-center py-6">No data yet</p>
+        </div>
+    );
+
+    return (
+        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 bg-[#4988C4]/20 rounded-lg flex items-center justify-center">
+                    {icon}
+                </div>
+                <h2 className="text-sm font-semibold text-white">{title}</h2>
+            </div>
+            <ResponsiveContainer width="100%" height={180}>
+                <PieChart>
+                    <Pie
+                        data={data}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={45}
+                        outerRadius={70}
+                        paddingAngle={3}
+                        dataKey="clicks"
+                        nameKey="name"
+                    >
+                        {data.map((_, index) => (
+                            <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                    </Pie>
+                    <Tooltip
+                        contentStyle={{
+                            background: '#0B1220',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            borderRadius: '8px',
+                            fontSize: '12px',
+                            color: 'white'
+                        }}
+                    />
+                    <Legend
+                        formatter={(value) => <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '11px' }}>{value}</span>}
+                    />
+                </PieChart>
+            </ResponsiveContainer>
+        </div>
+    );
+};
 
 const Analytics = () => {
     const { id } = useParams();
@@ -31,29 +89,23 @@ const Analytics = () => {
                 setLoading(false);
             }
         };
-
         fetchAnalytics();
         const interval = setInterval(fetchAnalytics, 10000);
         return () => clearInterval(interval);
     }, [id]);
 
-    if (!id) {
-        return (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-5">
-                    <BarChart2 className="text-[#6aa8ff]" size={28} />
-                </div>
-                <h2 className="text-xl font-bold text-white mb-2">Select a link</h2>
-                <p className="text-white/40 text-sm max-w-sm mb-6">Go to your links list and click the analytics icon on any link.</p>
-                <Link to="/links"
-                    className="px-5 py-2.5 rounded-xl text-sm font-medium
-                    bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white
-                    shadow-lg shadow-blue-500/30 hover:scale-105 transition-all">
-                    View My Links
-                </Link>
+    if (!id) return (
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-5">
+                <BarChart2 className="text-[#6aa8ff]" size={28} />
             </div>
-        );
-    }
+            <h2 className="text-xl font-bold text-white mb-2">Select a link</h2>
+            <p className="text-white/40 text-sm max-w-sm mb-6">Go to your links list and click the analytics icon on any link.</p>
+            <Link to="/links" className="px-5 py-2.5 rounded-xl text-sm font-medium bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white shadow-lg shadow-blue-500/30 hover:scale-105 transition-all">
+                View My Links
+            </Link>
+        </div>
+    );
 
     if (loading) return (
         <div className="py-20 flex justify-center">
@@ -62,12 +114,14 @@ const Analytics = () => {
     );
 
     if (error) return (
-        <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-6 rounded-2xl text-center text-sm">
-            {error}
-        </div>
+        <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-6 rounded-2xl text-center text-sm">{error}</div>
     );
 
-    const { url, totalClicks, lastVisited, recentVisits, country_distribution } = analytics;
+    const { url, totalClicks, lastVisited, recentVisits, country_distribution, browser_distribution, device_distribution } = analytics;
+
+    // Format data for pie charts
+    const browserData = browser_distribution?.map(b => ({ name: b.browser, clicks: parseInt(b.clicks) })) || [];
+    const deviceData = device_distribution?.map(d => ({ name: d.device, clicks: parseInt(d.clicks) })) || [];
 
     const handleShare = () => {
         const publicUrl = `${window.location.origin}/r/${url.short_code}/stats`;
@@ -80,37 +134,26 @@ const Analytics = () => {
 
             {/* Header */}
             <div className="flex items-center gap-4">
-                <Link to="/links"
-                    className="p-2.5 bg-white/5 border border-white/10 rounded-xl
-                    text-white/40 hover:text-white transition-all">
+                <Link to="/links" className="p-2.5 bg-white/5 border border-white/10 rounded-xl text-white/40 hover:text-white transition-all">
                     <ArrowLeft size={18} />
                 </Link>
                 <div>
                     <h1 className="text-2xl font-bold text-white">Link Analytics</h1>
                     <p className="text-white/40 font-mono text-xs mt-0.5">/{url.short_code}</p>
                 </div>
-                
-                <button 
-                    onClick={handleShare}
-                    className="ml-auto flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 
-                    rounded-xl text-sm font-medium text-white hover:bg-white/10 transition-all group"
-                >
+                <button onClick={handleShare}
+                    className="ml-auto flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10
+                    rounded-xl text-sm font-medium text-white hover:bg-white/10 transition-all group">
                     <Share2 size={16} className="text-[#6aa8ff] group-hover:scale-110 transition-transform" />
                     Share Stats
                 </button>
             </div>
 
-            {/* 1. Original URL card — full width */}
+            {/* Original URL card */}
             <ScrollReveal className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                <p className="text-white/30 text-xs font-medium uppercase tracking-wider mb-3">
-                    Original URL
-                </p>
-                <a
-                    href={url.original_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-white font-medium hover:text-[#6aa8ff] transition-colors flex items-start gap-2 break-all text-sm"
-                >
+                <p className="text-white/30 text-xs font-medium uppercase tracking-wider mb-3">Original URL</p>
+                <a href={url.original_url} target="_blank" rel="noreferrer"
+                    className="text-white font-medium hover:text-[#6aa8ff] transition-colors flex items-start gap-2 break-all text-sm">
                     {url.original_url}
                     <ExternalLink size={14} className="flex-shrink-0 mt-0.5" />
                 </a>
@@ -128,10 +171,10 @@ const Analytics = () => {
                 </div>
             </ScrollReveal>
 
-            {/* 2. Middle row — chart left, stats right */}
+            {/* Middle row — chart left, stats right */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                {/* Click Trends chart — left 2/3 */}
+                {/* Click Trends */}
                 <ScrollReveal className="lg:col-span-2 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex flex-col w-full h-full">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="w-8 h-8 bg-[#4988C4]/20 rounded-lg flex items-center justify-center">
@@ -150,51 +193,49 @@ const Analytics = () => {
                     </div>
                 </ScrollReveal>
 
-                {/* Stats — right 1/3 */}
+                {/* Stats right column */}
                 <div className="flex flex-col gap-6">
+
                     {/* Top Locations */}
                     <ScrollReveal>
-                        <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000} className="flex-1">
-                            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 h-full
+                        <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000}>
+                            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6
                             hover:border-emerald-500/50 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-all duration-300">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center">
-                                <Globe className="text-emerald-400" size={15} />
-                            </div>
-                            <h2 className="text-sm font-semibold text-white">Top locations</h2>
-                        </div>
-                        <div className="space-y-3">
-                            {country_distribution && country_distribution.length > 0 ? (
-                                country_distribution.slice(0, 5).map((item, index) => (
-                                    <div key={index} className="flex items-center justify-between group">
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/40 group-hover:bg-emerald-500 transition-colors" />
-                                            <span className="text-xs text-white/70 font-medium">{item.country || 'Unknown'}</span>
-                                        </div>
-                                        <span className="text-xs text-white/30 font-mono">{item.clicks} clicks</span>
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                                        <Globe className="text-emerald-400" size={15} />
                                     </div>
-                                ))
-                            ) : (
-                                <p className="text-[10px] text-white/20 italic text-center py-4">No location data yet</p>
-                            )}
-                        </div>
-                        </div>
+                                    <h2 className="text-sm font-semibold text-white">Top locations</h2>
+                                </div>
+                                <div className="space-y-3">
+                                    {country_distribution && country_distribution.length > 0 ? (
+                                        country_distribution.slice(0, 5).map((item, index) => (
+                                            <div key={index} className="flex items-center justify-between group">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/40 group-hover:bg-emerald-500 transition-colors" />
+                                                    <span className="text-xs text-white/70 font-medium">{item.country || 'Unknown'}</span>
+                                                </div>
+                                                <span className="text-xs text-white/30 font-mono">{item.clicks} clicks</span>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-[10px] text-white/20 italic text-center py-4">No location data yet</p>
+                                    )}
+                                </div>
+                            </div>
                         </Tilt>
                     </ScrollReveal>
-
 
                     {/* Total Interactions */}
                     <ScrollReveal>
                         <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000}>
                             <div className="bg-gradient-to-br from-[#4988C4] to-[#6aa8ff] rounded-2xl p-6
                             shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 hover:scale-[1.02] flex flex-col items-center text-center transition-all duration-300">
-                        <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
-                            <MousePointer2 className="text-white" size={22} />
-                        </div>
-                        <p className="text-white/70 text-xs font-medium uppercase tracking-wider mb-1">
-                            Total interactions
-                        </p>
-                        <p className="text-5xl font-black text-white">{totalClicks}</p>
+                                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                                    <MousePointer2 className="text-white" size={22} />
+                                </div>
+                                <p className="text-white/70 text-xs font-medium uppercase tracking-wider mb-1">Total interactions</p>
+                                <p className="text-5xl font-black text-white">{totalClicks}</p>
                             </div>
                         </Tilt>
                     </ScrollReveal>
@@ -204,30 +245,41 @@ const Analytics = () => {
                         <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} glareEnable={false} transitionSpeed={2000}>
                             <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6
                             hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] flex flex-col items-center text-center transition-all duration-300">
-                        <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-4">
-                            <Clock className="text-[#6aa8ff]" size={22} />
-                        </div>
-                        <p className="text-white/30 text-xs font-medium uppercase tracking-wider mb-1">
-                            Last impact
-                        </p>
-                        <p className="text-2xl font-bold text-white">
-                            {lastVisited ? new Date(lastVisited).toLocaleDateString() : 'Never'}
-                        </p>
-                        <p className="text-xs text-white/30 mt-1">
-                            {lastVisited ? new Date(lastVisited).toLocaleTimeString() : '—'}
-                        </p>
+                                <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-4">
+                                    <Clock className="text-[#6aa8ff]" size={22} />
+                                </div>
+                                <p className="text-white/30 text-xs font-medium uppercase tracking-wider mb-1">Last impact</p>
+                                <p className="text-2xl font-bold text-white">
+                                    {lastVisited ? new Date(lastVisited).toLocaleDateString() : 'Never'}
+                                </p>
+                                <p className="text-xs text-white/30 mt-1">
+                                    {lastVisited ? new Date(lastVisited).toLocaleTimeString() : '—'}
+                                </p>
                             </div>
                         </Tilt>
                     </ScrollReveal>
                 </div>
             </div>
 
-            {/* 3. Recent Visits Timeline — full width */}
+            {/* Browser + Device Charts */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <MiniPieChart
+                    data={browserData}
+                    title="Browser breakdown"
+                    icon={<Monitor className="text-[#6aa8ff]" size={15} />}
+                />
+                <MiniPieChart
+                    data={deviceData}
+                    title="Device breakdown"
+                    icon={<Smartphone className="text-[#6aa8ff]" size={15} />}
+                />
+            </div>
+
+            {/* Recent Visits Timeline */}
             <ScrollReveal className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-5">
                     <h2 className="text-sm font-semibold text-white">Recent visits timeline</h2>
-                    <span className="text-[10px] text-white/30 uppercase tracking-wider font-medium
-                    bg-white/5 border border-white/10 px-3 py-1 rounded-lg">
+                    <span className="text-[10px] text-white/30 uppercase tracking-wider font-medium bg-white/5 border border-white/10 px-3 py-1 rounded-lg">
                         Live feed
                     </span>
                 </div>
@@ -235,11 +287,10 @@ const Analytics = () => {
                     <VisitList visits={recentVisits} />
                 ) : (
                     <div className="py-10 text-center">
-                         <p className="text-white/20 text-sm italic">No recent visits recorded</p>
+                        <p className="text-white/20 text-sm italic">No recent visits recorded</p>
                     </div>
                 )}
             </ScrollReveal>
-
         </div>
     );
 };
