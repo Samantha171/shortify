@@ -1,3 +1,4 @@
+process.env.TZ = 'Asia/Kolkata';
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./modules/auth/auth.routes');

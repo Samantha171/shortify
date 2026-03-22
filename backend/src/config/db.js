@@ -14,7 +14,11 @@ pool.on('error', (err) => {
 });
 
 pool.connect()
-    .then(() => console.log('Connected to PostgreSQL'))
+    .then(async (client) => {
+        console.log('Connected to PostgreSQL');
+        await client.query("SET timezone = 'Asia/Kolkata'");
+        client.release();
+    })
     .catch(err => console.error('DB Connection Error:', err));
 
 module.exports = {
