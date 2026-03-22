@@ -50,14 +50,6 @@ const Login = () => {
 
             <div className="relative z-10 w-full max-w-lg">
 
-                {/* Logo */}
-                <div className="flex items-center justify-center gap-3 mb-8">
-                    <div className="w-10 h-10 bg-gradient-to-br from-[#4988C4] to-[#6aa8ff] rounded-xl
-                    flex items-center justify-center shadow-lg shadow-blue-500/30">
-                        <Link2 size={20} className="text-white" />
-                    </div>
-                    <span className="text-2xl font-bold text-white tracking-wide">Shortify</span>
-                </div>
 
                 {/* Card */}
                 <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8">
