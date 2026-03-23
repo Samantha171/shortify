@@ -11,24 +11,11 @@ Watch the Loom Demo: YOUR_LOOM_LINK_HERE
 ---
 
 ## Architecture Diagram
-```mermaid
-graph TD
-    User([User]) -->|Visit Short Link| Render[Render Backend]
-    User -->|Login / Signup| Frontend[Vercel Frontend]
-    Frontend -->|API Requests with JWT| Backend[Express.js Backend]
-    Backend -->|Auth Check| Middleware[JWT Middleware]
-    Middleware -->|Verified| Controllers[Route Controllers]
-    Controllers -->|CRUD Queries| DB[(Neon PostgreSQL)]
-    Controllers -->|IP Lookup| GeoAPI[ipwho.is / ip-api.com]
-    Render -->|Redirect| OriginalURL[Original URL]
-    Render -->|Async| DB
-```
 
-<<<<<<< HEAD
-For more detailed information on architecture and logic, see the codebase structure.
-=======
+![Shortify Architecture Diagram](./assets/architecture.png)
+
 ---
->>>>>>> 51974d4e7cc5e8a4b2909af11fe591f706cdb0a1
+
 
 ## Features
 The application provides a comprehensive set of features focused on usability, analytics, and scalability:
