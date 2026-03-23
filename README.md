@@ -167,7 +167,7 @@ npm run dev
 
 ## AI Planning Document
 
- [View AI Planning Document](./planning_document.docx)
+ [View AI Planning Document](./project_planning_document.docx)
 
 ---
 
