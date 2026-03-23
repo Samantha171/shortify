@@ -44,6 +44,20 @@ The application provides a comprehensive set of features focused on usability, a
 - **Keep-Alive Service** — cron-job.org configured to ping Render backend every 5 minutes preventing cold start delays
 
 ---
+## Features
+... (core + bonus features)
+
+---
+
+## ✨ UI/UX Highlights
+- Pixel cursor for interactive experience  
+- 3D tilt cards on analytics dashboard  
+- Glassmorphism-based modern UI design  
+- Smooth scroll and reveal animations  
+- Toast notifications for user feedback  
+- Fully responsive across mobile, tablet, and desktop  
+
+---
 
 ## Tech Stack
 
