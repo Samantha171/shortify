@@ -14,7 +14,7 @@ graph TD
     Redirect --> User
 ```
 
-For more detailed information on features, planning, and assumptions, see [PLANNING.md](./PLANNING.md).
+For more detailed information on architecture and logic, see the codebase structure.
 
 ## 🚀 Getting Started
 

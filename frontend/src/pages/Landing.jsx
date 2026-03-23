@@ -118,24 +118,24 @@ const Landing = () => {
             {/* Hero */}
             <main className="relative z-10 max-w-4xl mx-auto px-6 pt-8 pb-10 text-center">
 
-                <h1 className="text-5xl md:text-7xl lg:text-[84px] font-black mb-6 leading-[1.1] tracking-[-0.02em] px-4 font-sans">
+                <h1 className="text-4xl md:text-7xl lg:text-[84px] font-black mb-6 leading-[1.1] tracking-[-0.02em] px-4 font-sans">
                     Shorten Your Links,{' '}
                     <span className="bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] bg-clip-text text-transparent">
                         Expand Your Reach
                     </span>
                 </h1>
 
-                <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-medium px-4">
+                <p className="text-white/60 text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-medium px-4">
                     Transform long messy URLs into powerful trackable links.<br className="hidden md:block" /> Analytics, QR codes, and bulk upload — all in one place.
                 </p>
 
-                <div className="mb-12">
+                <div className="mb-12 px-4">
                     <ScissorsAnimation />
                 </div>
 
-                <div className="flex items-center justify-center gap-5 mt-10">
+                <div className="flex items-center justify-center gap-5 mt-10 px-4">
                     <button onClick={() => setShowDemo(true)}
-                        className="flex items-center gap-2 px-10 py-4 rounded-2xl font-black text-base
+                        className="w-full sm:w-auto flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-black text-base
                         bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white
                         shadow-xl shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all">
                         View Demo

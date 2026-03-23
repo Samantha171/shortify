@@ -1,14 +1,23 @@
 import { useAuth } from '../context/AuthContext';
-import { User } from 'lucide-react';
+import { User, Menu } from 'lucide-react';
 
-const Topbar = () => {
+const Topbar = ({ onMenuClick }) => {
     const { user } = useAuth();
 
     return (
         <header className="h-16 bg-[#0B1220]/80 backdrop-blur-xl border-b border-white/8 
-        flex items-center justify-end px-8 sticky top-0 z-10">
+        flex items-center justify-between lg:justify-end px-4 md:px-8 sticky top-0 z-10 transition-all">
+            
+            {/* Mobile Menu Button */}
+            <button
+                onClick={onMenuClick}
+                className="lg:hidden p-2 text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+            >
+                <Menu size={24} />
+            </button>
+
             <div className="flex items-center gap-3">
-                <div className="text-right">
+                <div className="text-right hidden sm:block">
                     <p className="text-sm font-semibold text-white">{user?.name}</p>
                     <p className="text-xs text-white/40">{user?.email}</p>
                 </div>

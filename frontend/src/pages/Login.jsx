@@ -37,14 +37,14 @@ const Login = () => {
             {/* Glow orbs */}
             <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-400/10 blur-[100px] rounded-full pointer-events-none" />
 
-            {/* Top-left Branding */}
-            <Link to="/" className="absolute top-8 left-8 flex items-center gap-3 group z-20 hover:opacity-80 transition-opacity">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4988C4] to-[#6aa8ff]
+            {/* Top Branding */}
+            <Link to="/" className="absolute top-6 sm:top-8 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-8 flex items-center gap-3 group z-20 hover:opacity-80 transition-opacity">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#4988C4] to-[#6aa8ff]
                 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
-                    <Link2 size={18} className="text-white" />
+                    <Link2 size={16} className="text-white" />
                 </div>
                 <div>
-                    <h1 className="text-xl font-bold text-white tracking-wide">Shortify</h1>
+                    <h1 className="text-lg sm:text-xl font-bold text-white tracking-wide">Shortify</h1>
                 </div>
             </Link>
 

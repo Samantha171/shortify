@@ -133,17 +133,19 @@ const Analytics = () => {
         <div className="space-y-6">
 
             {/* Header */}
-            <div className="flex items-center gap-4">
-                <Link to="/links" className="p-2.5 bg-white/5 border border-white/10 rounded-xl text-white/40 hover:text-white transition-all">
-                    <ArrowLeft size={18} />
-                </Link>
-                <div>
-                    <h1 className="text-2xl font-bold text-white">Link Analytics</h1>
-                    <p className="text-white/40 font-mono text-xs mt-0.5">/{url.short_code}</p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="flex items-center gap-4 w-full sm:w-auto">
+                    <Link to="/links" className="p-2.5 bg-white/5 border border-white/10 rounded-xl text-white/40 hover:text-white transition-all">
+                        <ArrowLeft size={18} />
+                    </Link>
+                    <div>
+                        <h1 className="text-xl md:text-2xl font-bold text-white">Link Analytics</h1>
+                        <p className="text-white/40 font-mono text-xs mt-0.5">/{url.short_code}</p>
+                    </div>
                 </div>
                 <button onClick={handleShare}
-                    className="ml-auto flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10
-                    rounded-xl text-sm font-medium text-white hover:bg-white/10 transition-all group">
+                    className="sm:ml-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-white/5 border border-white/10
+                    rounded-xl text-sm font-medium text-white hover:bg-white/10 transition-all group w-full sm:w-auto">
                     <Share2 size={16} className="text-[#6aa8ff] group-hover:scale-110 transition-transform" />
                     Share Stats
                 </button>

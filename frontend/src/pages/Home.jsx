@@ -53,25 +53,25 @@ const Home = () => {
         <div className="space-y-8">
 
             {/* Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-white tracking-tight">
+                    <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight">
                         Dashboard Overview
                     </h1>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2 md:gap-3 w-full sm:w-auto">
                     <button
                         onClick={() => setIsBulkModalOpen(true)}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm
-                        bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white
-                        shadow-lg shadow-blue-500/30 hover:scale-105 transition-all duration-200"
+                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-5 py-2.5 rounded-xl font-semibold text-xs md:text-sm
+                        bg-white/5 text-white border border-white/10
+                        hover:bg-white/10 transition-all duration-200"
                     >
-                        <Upload size={17} />
+                        <Upload size={16} />
                         <span>Upload CSV</span>
                     </button>
                     <button
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm
+                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-5 py-2.5 rounded-xl font-semibold text-xs md:text-sm
                         bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white
                         shadow-lg shadow-blue-500/30 hover:scale-105 transition-all duration-200"
                     >
