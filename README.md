@@ -1,7 +1,5 @@
 # Shortify — Smart URL Shortener
 
-> This project is a part of a hackathon run by https://katomaran.com
-
 A powerful, full-stack URL Shortener application with advanced analytics, QR code generation, geolocation tracking, and bulk upload capabilities. Built with a focus on speed, security, and user experience.
 
 ---
