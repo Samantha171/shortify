@@ -4,9 +4,8 @@ import { Zap, BarChart2, Link2, Scissors, QrCode, Upload, Clock } from 'lucide-r
 import { useEffect, useState } from 'react';
 import Tilt from 'react-parallax-tilt';
 import ScrollReveal from '../components/ScrollReveal';
-import demoVideo from '../src/assets/demo.mp4';
+import demoVideo from '../assets/demo.mp4';
 
-const [showDemo, setShowDemo] = useState(false);
 const ScissorsAnimation = () => {
     const [phase, setPhase] = useState('typing');
     const longUrl = 'https://www.example.com/very/long/url/that/nobody/wants';
