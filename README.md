@@ -27,27 +27,28 @@ graph TD
 ---
 
 ## Features
+The application provides a comprehensive set of features focused on usability, analytics, and scalability:
 
 ### Core Features
-- User Authentication — Signup, Login, JWT-based session management
-- URL Shortening — Generate short links instantly with nanoid
-- Click Analytics — Track total clicks, visit history, and trends
-- Expiry Dates — Set auto-expiring links with datetime support
-- Redirects — Fast server-side redirects via /r/:short_code
+- **User Authentication** — Secure signup and login with JWT-based session management  
+- **URL Shortening** — Generates unique short links instantly using nanoid  
+- **Redirect System** — Fast server-side redirection via `/r/:short_code`  
+- **Click Analytics** — Tracks total clicks and maintains visit history  
+- **Expiry Dates** — Allows links to expire automatically based on datetime  
 
 ### Bonus Features
-- Custom Alias — Choose your own short code (e.g. /r/my-link)
-- QR Code Generation — Generate and download QR codes per link
-- Daily Click Trends — Line chart showing clicks over time
-- Bulk CSV Upload — Upload multiple URLs at once via CSV file
-- Edit Links — Update destination URL and expiry date
-- Geolocation Analytics — Track country and city per click
-- Browser and Device Analytics — Track Chrome/Firefox/Safari, Mobile/Desktop
-- Public Stats Page — Share a public analytics page for any link
-- Link Filters — Filter by status (active/expired) and sort by date/clicks
-- Expiry Warnings — Visual badge when link expires within 3 days
-- Change Password — Secure password update with bcrypt
-- Delete Account — Full account deletion with data cleanup
+- **Custom Alias** — Users can define their own short codes (e.g., `/r/my-link`)  
+- **QR Code Generation** — Generates downloadable QR codes for each shortened URL  
+- **Daily Click Trends** — Visualizes clicks over time using line charts  
+- **Bulk CSV Upload** — Enables creation of multiple short URLs through CSV upload  
+- **Edit Links** — Allows updating of original URL and expiry date  
+- **Geolocation Analytics** — Captures visitor country and city for each click  
+- **Browser & Device Analytics** — Detects browser type and device (mobile/desktop)  
+- **Public Stats Page** — Provides a shareable analytics page for each link  
+- **Link Filters** — Filters links by status (active/expired) and sorts by metrics  
+- **Expiry Warnings** — Displays alerts when links are about to expire (≤ 3 days)  
+- **Change Password** — Allows users to securely update their password  
+- **Delete Account** — Enables full account deletion with associated data cleanup  
 
 ---
 
