@@ -187,7 +187,7 @@ const Settings = () => {
                             <h2 className="text-lg font-bold text-white">Change Password</h2>
                         </div>
 
-                        <form onSubmit={handlePasswordUpdate} className="space-y-4">
+                        <form onSubmit={handlePasswordUpdate} className="flex flex-col flex-1 gap-4">
                             <div>
                                 <label className={labelClass}>Current Password</label>
                                 <div className={inputContainerClass}>
@@ -254,7 +254,7 @@ const Settings = () => {
                             <button
                                 type="submit"
                                 disabled={passwordLoading}
-                                className="w-full mt-2 flex items-center justify-center gap-2
+                                className="w-full mt-auto flex items-center justify-center gap-2
                                 bg-gradient-to-r from-[#4988C4] to-[#6aa8ff]
                                 text-white font-bold py-3 rounded-xl
                                 shadow-lg shadow-blue-500/20
@@ -264,27 +264,6 @@ const Settings = () => {
                                 {passwordLoading ? <Loader2 className="animate-spin" size={18} /> : 'Update Password'}
                             </button>
                         </form>
-
-                        {/* Spacer filler — security tips */}
-                        <div className="mt-auto pt-6 border-t border-white/5">
-                            <p className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-3 flex items-center gap-2">
-                                <ShieldCheck size={13} className="text-[#4988C4]" />
-                                Password Tips
-                            </p>
-                            <ul className="space-y-2">
-                                {[
-                                    'Use at least 8 characters',
-                                    'Mix uppercase, lowercase & numbers',
-                                    'Avoid using personal info',
-                                    'Never reuse old passwords',
-                                ].map((tip, i) => (
-                                    <li key={i} className="flex items-center gap-2 text-xs text-white/30">
-                                        <CheckCircle2 size={12} className="text-[#4988C4]/60 flex-shrink-0" />
-                                        {tip}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
                     </div>
                 </ScrollReveal>
             </div>
