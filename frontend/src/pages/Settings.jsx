@@ -264,6 +264,27 @@ const Settings = () => {
                                 {passwordLoading ? <Loader2 className="animate-spin" size={18} /> : 'Update Password'}
                             </button>
                         </form>
+
+                        {/* Spacer filler — security tips */}
+                        <div className="mt-auto pt-6 border-t border-white/5">
+                            <p className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                <ShieldCheck size={13} className="text-[#4988C4]" />
+                                Password Tips
+                            </p>
+                            <ul className="space-y-2">
+                                {[
+                                    'Use at least 8 characters',
+                                    'Mix uppercase, lowercase & numbers',
+                                    'Avoid using personal info',
+                                    'Never reuse old passwords',
+                                ].map((tip, i) => (
+                                    <li key={i} className="flex items-center gap-2 text-xs text-white/30">
+                                        <CheckCircle2 size={12} className="text-[#4988C4]/60 flex-shrink-0" />
+                                        {tip}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </ScrollReveal>
             </div>
