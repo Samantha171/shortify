@@ -251,10 +251,27 @@ const Settings = () => {
                                 </div>
                             </div>
 
+                            {/* Password Tips — fills the gap */}
+                            <div className="flex-1 flex items-center">
+                                <div className="w-full rounded-xl bg-white/3 border border-white/8 px-4 py-3 grid grid-cols-2 gap-x-4 gap-y-2">
+                                    {[
+                                        '8+ characters',
+                                        'Uppercase & lowercase',
+                                        'At least one number',
+                                        'No personal info',
+                                    ].map((tip, i) => (
+                                        <div key={i} className="flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-[#4988C4]/60 flex-shrink-0" />
+                                            <span className="text-[11px] text-white/30">{tip}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
                             <button
                                 type="submit"
                                 disabled={passwordLoading}
-                                className="w-full mt-auto flex items-center justify-center gap-2
+                                className="w-full flex items-center justify-center gap-2
                                 bg-gradient-to-r from-[#4988C4] to-[#6aa8ff]
                                 text-white font-bold py-3 rounded-xl
                                 shadow-lg shadow-blue-500/20
