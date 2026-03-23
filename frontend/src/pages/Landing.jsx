@@ -4,7 +4,10 @@ import { Zap, BarChart2, Link2, Scissors, QrCode, Upload, Clock } from 'lucide-r
 import { useEffect, useState } from 'react';
 import Tilt from 'react-parallax-tilt';
 import ScrollReveal from '../components/ScrollReveal';
+import { useState } from "react";
+import demoVideo from '../assets/demo.mp4';
 
+const [showDemo, setShowDemo] = useState(false);
 const ScissorsAnimation = () => {
     const [phase, setPhase] = useState('typing');
     const longUrl = 'https://www.example.com/very/long/url/that/nobody/wants';
@@ -140,6 +143,43 @@ const Landing = () => {
                         shadow-xl shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all">
                         View Demo
                     </button>
+                    {showDemo && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+
+                            <div className="w-full max-w-3xl bg-[#0B1220] rounded-2xl border border-white/10 p-6 relative">
+
+                                {/* Close button */}
+                                <button
+                                    onClick={() => setShowDemo(false)}
+                                    className="absolute top-4 right-4 text-white/40 hover:text-white"
+                                >
+                                    ✕
+                                </button>
+
+                                {/* Title */}
+                                <h2 className="text-xl font-bold text-white mb-4">
+                                    See Shortify in Action
+                                </h2>
+
+                                {/* Video */}
+                                <video
+                                    controls
+                                    autoPlay
+                                    className="w-full rounded-xl border border-white/10"
+                                >
+                                    <source src={demoVideo} type="video/mp4" />
+                                </video>
+
+                                {/* Optional text */}
+                                <div className="mt-4 text-sm text-white/50">
+                                    • Create links instantly
+                                    • Generate QR codes
+                                    • Track analytics
+                                </div>
+
+                            </div>
+                        </div>
+                    )}
                 </div>
             </main>
 
