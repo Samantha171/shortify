@@ -41,7 +41,8 @@ The application provides a comprehensive set of features focused on usability, a
 - **QR Code Generation** — Generates downloadable QR codes for each shortened URL  
 - **Daily Click Trends** — Visualizes clicks over time using line charts  
 - **Bulk CSV Upload** — Enables creation of multiple short URLs through CSV upload  
-- **Edit Links** — Allows updating of original URL and expiry date  
+- **Edit Links** — Allows updating of original URL and expiry date
+- - **Duplicate URL Prevention** — Prevents creation of duplicate short links for the same URL by reusing existing entries for a user
 - **Geolocation Analytics** — Captures visitor country and city for each click  
 - **Browser & Device Analytics** — Detects browser type and device (mobile/desktop)  
 - **Public Stats Page** — Provides a shareable analytics page for each link  
@@ -160,13 +161,13 @@ npm run dev
 
 ## Assumptions Made
 
-1. Each user can create multiple short links for the same URL — useful for different expiry dates or aliases
+1. Each user cannot create multiple short links for the same URL — existing short link is reused to avoid duplication
 2. Short codes are generated using nanoid (7 characters) — collision probability is negligible
 3. Click count is incremented on every redirect regardless of unique visits
 4. Geolocation is tracked asynchronously — redirect is never delayed for geo lookup
 5. QR codes are generated on-demand in the browser — not stored in DB
 6. Expired links redirect to a dedicated /expired page instead of returning a 404
-7. JWT tokens are stored in localStorage — suitable for a hackathon context
+7. JWT tokens are stored in localStorage
 8. Free tier services are used — Render may have cold start delays of 30-60 seconds after inactivity
 9. Browser and device detection is based on user-agent string parsing — may not be 100% accurate for all clients
 10. Public stats pages are accessible without authentication — no sensitive data is exposed
