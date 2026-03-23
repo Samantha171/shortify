@@ -4,7 +4,6 @@ import { Zap, BarChart2, Link2, Scissors, QrCode, Upload, Clock } from 'lucide-r
 import { useEffect, useState } from 'react';
 import Tilt from 'react-parallax-tilt';
 import ScrollReveal from '../components/ScrollReveal';
-import demoVideo from '../assets/demo.mp4';
 
 const ScissorsAnimation = () => {
     const [phase, setPhase] = useState('typing');
@@ -165,7 +164,7 @@ const Landing = () => {
                                     autoPlay
                                     className="w-full rounded-xl border border-white/10"
                                 >
-                                    <source src={demoVideo} type="video/mp4" />
+                                    <source src='/demo.mp4' type="video/mp4" />
                                 </video>
 
                                 {/* Optional text */}
@@ -302,38 +301,6 @@ const Landing = () => {
                 </div>
             </div>
 
-            {/* Demo Modal */}
-            {showDemo && (
-                <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
-                    onClick={() => setShowDemo(false)}>
-                    <div className="bg-[#0B1220] border border-white/10 rounded-2xl p-6 max-w-md w-full"
-                        onClick={e => e.stopPropagation()}>
-                        <h3 className="text-white font-semibold text-base mb-4">How Shortify works</h3>
-                        <div className="space-y-3">
-                            {[
-                                { step: '1', text: 'Paste your long URL into Shortify' },
-                                { step: '2', text: 'Get a clean short link instantly' },
-                                { step: '3', text: 'Share it anywhere — we track every click' },
-                                { step: '4', text: 'View analytics and download QR codes' },
-                            ].map(item => (
-                                <div key={item.step} className="flex items-center gap-3 bg-white/5 rounded-xl p-3">
-                                    <div className="w-7 h-7 rounded-full bg-[#4988C4]/20 text-[#6aa8ff]
-                                    flex items-center justify-center text-xs font-bold flex-shrink-0">
-                                        {item.step}
-                                    </div>
-                                    <p className="text-white/70 text-sm">{item.text}</p>
-                                </div>
-                            ))}
-                        </div>
-                        <button onClick={() => setShowDemo(false)}
-                            className="w-full mt-5 py-2.5 rounded-xl text-sm font-medium
-                            bg-gradient-to-r from-[#4988C4] to-[#6aa8ff] text-white
-                            shadow-lg shadow-blue-500/20 hover:scale-105 transition-all">
-                            Get Started Free →
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
