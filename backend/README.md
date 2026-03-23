@@ -2,7 +2,7 @@
 
 An Express.js REST API for managing URL shortening, authentication, and analytics.
 
-## 🚀 Setup
+##  Setup
 
 1. **Install dependencies**:
    ```bash
@@ -30,26 +30,26 @@ An Express.js REST API for managing URL shortening, authentication, and analytic
    npm start
    ```
 
-## 📡 API Endpoints
+##  API Endpoints
 
-### 🔐 Authentication (`/api/auth`)
+###  Authentication (`/api/auth`)
 - `POST /signup`: Register a new account.
 - `POST /login`: Log in to an existing account.
 - `GET /me`: Retrieve the current authenticated user's profile.
 
-### 🔗 URL Management (`/api/urls`)
+###  URL Management (`/api/urls`)
 - `POST /`: Shorten a new URL (supports custom aliases and expiry).
 - `GET /`: List all URLs created by the user.
 - `GET /stats`: Get overall stats for the user's URLs.
 - `DELETE /:id`: Delete a specific URL.
 
-### 📊 Analytics (`/api/analytics`)
+###  Analytics (`/api/analytics`)
 - `GET /:url_id`: Get detailed click history for a URL.
 
-### 🔀 Redirection (`/r`)
+###  Redirection (`/r`)
 - `GET /:short_code`: Redirects to the original URL and tracks the visit.
 
-## 🛠️ Built With
+##  Built With
 - **Express.js**: Web framework.
 - **pg**: PostgreSQL client.
 - **bcryptjs**: Password hashing.
