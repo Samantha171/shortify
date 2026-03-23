@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Tilt from 'react-parallax-tilt';
 import ScrollReveal from '../components/ScrollReveal';
 import { useState } from "react";
-import demoVideo from '../assets/demo.mp4';
+import demoVideo from '../src/assets/demo.mp4';
 
 const [showDemo, setShowDemo] = useState(false);
 const ScissorsAnimation = () => {
