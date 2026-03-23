@@ -40,7 +40,8 @@ The application provides a comprehensive set of features focused on usability, a
 - **Link Filters** — Filters links by status (active/expired) and sorts by metrics  
 - **Expiry Warnings** — Displays alerts when links are about to expire (≤ 3 days)  
 - **Change Password** — Allows users to securely update their password  
-- **Delete Account** — Enables full account deletion with associated data cleanup  
+- **Delete Account** — Enables full account deletion with associated data cleanup-
+- **Keep-Alive Service** — cron-job.org configured to ping Render backend every 5 minutes preventing cold start delays
 
 ---
 
