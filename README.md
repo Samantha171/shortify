@@ -12,7 +12,7 @@ Watch the Loom Demo: https://www.loom.com/share/2ceed03e428444fdbc62473239873609
 
 ## Architecture Diagram
 
-![Shortify Architecture Diagram](./src/assets/architecture.png)
+![Shortify Architecture Diagram](./architecture.png)
 
 ---
 
