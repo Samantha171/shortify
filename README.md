@@ -6,7 +6,7 @@ A powerful, full-stack URL Shortener application with advanced analytics, QR cod
 
 ## Demo Video
 
-Watch the Loom Demo: YOUR_LOOM_LINK_HERE
+Watch the Loom Demo: https://www.loom.com/share/2ceed03e428444fdbc62473239873609
 
 ---
 
