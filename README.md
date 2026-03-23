@@ -42,7 +42,7 @@ The application provides a comprehensive set of features focused on usability, a
 - **Daily Click Trends** — Visualizes clicks over time using line charts  
 - **Bulk CSV Upload** — Enables creation of multiple short URLs through CSV upload  
 - **Edit Links** — Allows updating of original URL and expiry date
-- - **Duplicate URL Prevention** — Prevents creation of duplicate short links for the same URL by reusing existing entries for a user
+- **Duplicate URL Prevention** — Prevents creation of duplicate short links for the same URL by reusing existing entries for a user
 - **Geolocation Analytics** — Captures visitor country and city for each click  
 - **Browser & Device Analytics** — Detects browser type and device (mobile/desktop)  
 - **Public Stats Page** — Provides a shareable analytics page for each link  
