@@ -1,6 +1,7 @@
 const urlService = require('./url.service');
 const { parse } = require('csv-parse/sync');
 const db = require('../../config/db');
+const { getGeolocation } = require('../../utils/geo.utils');
 
 const createUrl = async (req, res) => {
     const { original_url, expiry_date, custom_alias } = req.body;
@@ -76,7 +77,7 @@ const redirect = async (req, res) => {
         await urlService.incrementClickCount(url.url_id);
         res.redirect(url.original_url);
 
-        // Async Visit Recording + Geo + Browser/Device
+        // Async Visit Recording + Geo + Browser/Device (Non-blocking)
         (async () => {
             try {
                 // Parse browser and device from user agent
@@ -97,44 +98,34 @@ const redirect = async (req, res) => {
                 else if (/iPad|Android(?!.*Mobile)|Tablet/i.test(ua)) device = 'Tablet';
                 else device = 'Desktop';
 
-                // Insert visit with browser/device
-                const { rows } = await db.query(
-                    'INSERT INTO visits (url_id, country, city, browser, device) VALUES ($1, $2, $3, $4, $5) RETURNING visit_id',
-                    [url.url_id, 'Unknown', 'Unknown', browser, device]
-                );
-                const visitId = rows[0].visit_id;
-
-                // Geolocation
-                let ip = req.headers['x-forwarded-for']?.split(',')[0] ||
-                    req.headers['x-real-ip'] ||
+                // IP Extraction (Handle proxies like Render)
+                let ip = req.headers['x-forwarded-for']?.split(',')[0].trim() ||
+                    req.headers['x-real-ip']?.trim() ||
+                    req.ip ||
                     req.socket.remoteAddress;
 
                 if (ip && ip.includes('::ffff:')) ip = ip.split(':').pop();
                 if (ip === '::1') ip = '127.0.0.1';
 
+                // Initial insertion with browser/device info
+                const { rows } = await db.query(
+                    'INSERT INTO visits (url_id, browser, device, country, city) VALUES ($1, $2, $3, $4, $5) RETURNING visit_id',
+                    [url.url_id, browser, device, 'Unknown', 'Unknown']
+                );
+                const visitId = rows[0].visit_id;
+
+                // Local IP check (fixed typo)
                 const isLocal = !ip || ip === '127.0.0.1' ||
                     ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.');
 
                 if (!isLocal) {
-                    let country = 'Unknown';
-                    let city = 'Unknown';
-                    try {
-                        const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,status`);
-                        const geoData = await geoRes.json();
-
-                        console.log("Geo Response:", geoData); // DEBUG
-
-                        if (geoData.status === 'success') {
-                            country = geoData.country || 'Unknown';
-                            city = geoData.city || 'Unknown';
-                        }
-                    } catch (e) {
-                        console.error('Geo API failed:', e);
+                    const geoData = await getGeolocation(ip);
+                    if (geoData.status === 'success') {
+                        await db.query(
+                            'UPDATE visits SET country = $1, city = $2 WHERE visit_id = $3',
+                            [geoData.country, geoData.city, visitId]
+                        );
                     }
-                    await db.query(
-                        'UPDATE visits SET country = $1, city = $2 WHERE visit_id = $3',
-                        [country, city, visitId]
-                    );
                 }
             } catch (err) {
                 console.error('Visit recording failed:', err);
