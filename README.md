@@ -167,28 +167,7 @@ npm run dev
 
 ## AI Planning Document
 
-This application was planned and built using AI-assisted development. The planning process followed these steps:
-
-### Step 1 — Feature Planning
-Defined core and bonus features based on the hackathon requirements. Prioritized features by complexity and impact.
-
-### Step 2 — Architecture Design
-Designed a 3-tier architecture: React frontend → Express backend → PostgreSQL database. Decided on JWT for stateless authentication.
-
-### Step 3 — Database Schema
-Designed 3 tables: users, urls, visits. Added columns incrementally as features were added (geolocation, browser/device tracking, QR tracking).
-
-### Step 4 — API Design
-Defined REST API endpoints covering auth, URL management, analytics, and redirects.
-
-### Step 5 — UI Design
-Chose a dark glassmorphism theme with #0B1220 background and #4988C4 to #6aa8ff blue gradient accent colors.
-
-### Step 6 — Implementation
-Built features incrementally — core first, then bonus features. Each feature was tested before moving to the next.
-
-### Step 7 — Deployment
-Deployed backend on Render, frontend on Vercel, database on Neon. Set up cron-job.org to keep Render alive.
+ [View AI Planning Document](./planning_document.docx)
 
 ---
 
