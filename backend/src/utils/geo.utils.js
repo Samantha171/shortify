@@ -8,43 +8,50 @@ const getGeolocation = async (ip) => {
         return { country: 'Local', city: 'Local', status: 'success' };
     }
 
-    // Common local/private IP ranges
     if (ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.')) {
         return { country: 'Local', city: 'Local', status: 'success' };
     }
 
+    // Try Primary Service (ip-api.com)
+    let result = await callGeoApi(`http://ip-api.com/json/${ip}?fields=status,message,country,city`, ip, 'ip-api');
+    
+    // If Primary fails, try Secondary (freeipapi.com)
+    if (result.status !== 'success') {
+        console.log(`[GEO] Attempting fallback for IP ${ip}...`);
+        result = await callGeoApi(`https://freeipapi.com/api/json/${ip}`, ip, 'freeipapi');
+    }
+
+    return result;
+};
+
+const callGeoApi = async (url, ip, provider) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2000); // 2-second timeout
 
     try {
-        const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,city`, {
-            signal: controller.signal
-        });
-
+        const response = await fetch(url, { signal: controller.signal });
         clearTimeout(timeoutId);
 
-        if (!response.ok) {
-            throw new Error(`Geo API responded with status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Status ${response.status}`);
 
         const data = await response.json();
-        
-        if (data.status === 'fail') {
-            console.warn(`Geo API failed for IP ${ip}: ${data.message}`);
-            return { country: 'Unknown', city: 'Unknown', status: 'fail' };
+
+        // Handle different response formats
+        if (provider === 'ip-api') {
+            if (data.status === 'fail') throw new Error(data.message || 'fail');
+            return { country: data.country || 'Unknown', city: data.city || 'Unknown', status: 'success' };
+        } else if (provider === 'freeipapi') {
+            return { country: data.countryName || 'Unknown', city: data.cityName || 'Unknown', status: 'success' };
         }
 
-        return {
-            country: data.country || 'Unknown',
-            city: data.city || 'Unknown',
-            status: 'success'
-        };
+        return { country: 'Unknown', city: 'Unknown', status: 'error' };
     } catch (error) {
         clearTimeout(timeoutId);
+        const engine = provider.toUpperCase();
         if (error.name === 'AbortError') {
-            console.error(`Geo API timeout for IP: ${ip}`);
+            console.error(`[GEO ${engine} TIMEOUT] IP: ${ip}`);
         } else {
-            console.error(`Geo API error for IP ${ip}:`, error.message);
+            console.error(`[GEO ${engine} ERROR] IP: ${ip}:`, error.message);
         }
         return { country: 'Unknown', city: 'Unknown', status: 'error' };
     }

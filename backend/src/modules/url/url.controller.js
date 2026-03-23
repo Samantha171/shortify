@@ -107,6 +107,8 @@ const redirect = async (req, res) => {
                 if (ip && ip.includes('::ffff:')) ip = ip.split(':').pop();
                 if (ip === '::1') ip = '127.0.0.1';
 
+                console.log(`[DEBUG] Detected IP: ${ip}`); // DEBUG LOG
+
                 // Initial insertion with browser/device info
                 const { rows } = await db.query(
                     'INSERT INTO visits (url_id, browser, device, country, city) VALUES ($1, $2, $3, $4, $5) RETURNING visit_id',
