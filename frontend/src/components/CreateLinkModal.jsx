@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X, Link2, Calendar, Loader2 } from 'lucide-react';
 import API from '../services/api';
+import { toast } from 'react-toastify';
 
 const CreateLinkModal = ({ isOpen, onClose, onSuccess }) => {
     const [originalUrl, setOriginalUrl] = useState('');
@@ -26,8 +27,11 @@ const CreateLinkModal = ({ isOpen, onClose, onSuccess }) => {
             setOriginalUrl('');
             setExpiryDate('');
             setCustomAlias('');
+            toast.success('🔗 Link shortened successfully!');
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to create link');
+            const msg = err.response?.data?.message || 'Failed to create link';
+            setError(msg);
+            toast.error(msg);
         } finally {
             setLoading(false);
         }
