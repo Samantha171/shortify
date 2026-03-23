@@ -119,23 +119,17 @@ const redirect = async (req, res) => {
                     let country = 'Unknown';
                     let city = 'Unknown';
                     try {
-                        const geoRes = await fetch(`https://ipwho.is/${ip}`);
+                        const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,status`);
                         const geoData = await geoRes.json();
-                        if (geoData.success === true) {
+
+                        console.log("Geo Response:", geoData); // DEBUG
+
+                        if (geoData.status === 'success') {
                             country = geoData.country || 'Unknown';
                             city = geoData.city || 'Unknown';
                         }
                     } catch (e) {
-                        try {
-                            const geoRes2 = await fetch(`https://ip-api.com/json/${ip}?fields=country,city,status`);
-                            const geoData2 = await geoRes2.json();
-                            if (geoData2.status === 'success') {
-                                country = geoData2.country || 'Unknown';
-                                city = geoData2.city || 'Unknown';
-                            }
-                        } catch (e2) {
-                            console.error('Both geo APIs failed');
-                        }
+                        console.error('Geo API failed:', e);
                     }
                     await db.query(
                         'UPDATE visits SET country = $1, city = $2 WHERE visit_id = $3',
